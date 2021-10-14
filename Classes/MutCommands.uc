@@ -24,11 +24,13 @@ function PostBeginPlay()
     super.PostBeginPlay();
 }
 
-reliable client function ModifyPreLogin(string Options, string Address, out string ErrorMessage)
+reliable client function ModifyPreLogin(string Options, string Address)
 {
     ClientLoadObjects();
 
-    super.ModifyPreLogin(Options, Address, ErrorMessage);
+    `log("ModifyPreLogin");
+
+    super.ModifyPreLogin(Options, Address);
 }
 
 function LoadObjects()
@@ -457,95 +459,95 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
 	StartShot   = PC.Pawn.Location;
 	EndShot     = StartShot + (450.0 * X) + (300 * Z);
 
-	Cobra = class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_AH1G_Content", class'Class'));
-    Loach = class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_OH6_Content", class'Class'));
-    Huey = class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Content", class'Class'));
-    Bushranger = class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Gunship_Content", class'Class'));
-    M113ACAV = class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class'));
-    //M113ACAV = class<ROVehicle>(DynamicLoadObject("GOM4.GOMVehicle_M113_ACAV_ActualContent", class'Class'));
-    //MUTT = class<ROVehicle>(DynamicLoadObject("GOM4.GOMVehicle_M151_MUTT_US", class'Class'));
-    //T34 = class<ROVehicle>(DynamicLoadObject("GOM4.GOMVehicle_T34_ActualContent", class'Class'));
-    //M113ARVN = class<ROVehicle>(DynamicLoadObject("GOM4.GOMVehicle_M113_APC_ARVN", class'Class'));
-    T20 = class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class'));
-    T26 = class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class'));
-    T28 = class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class'));
-    HT130 = class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class'));
-    ATGun = class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class'));
-    Vickers = class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class'));
-    //M113 = class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACVehicle_M113_APC_Content", class'Class'));
+	Cobra = class'ROGameContent.ROHeli_AH1G_Content';
+    Loach = class'ROGameContent.ROHeli_OH6_Content';
+    Huey = class'ROGameContent.ROHeli_UH1H_Content';
+    Bushranger = class'ROGameContent.ROHeli_UH1H_Gunship_Content';
+    M113ACAV = class'GOM3.GOMVehicle_M113_ACAV_ActualContent';
+    //M113ACAV = class'GOM4.GOMVehicle_M113_ACAV_ActualContent';
+    //MUTT = class'GOM4.GOMVehicle_M151_MUTT_US';
+    //T34 = class'GOM4.GOMVehicle_T34_ActualContent';
+    //M113ARVN = class'GOM4.GOMVehicle_M113_APC_ARVN';
+    T20 = class'WinterWar.WWVehicle_T20_ActualContent';
+    T26 = class'WinterWar.WWVehicle_T26_EarlyWar_ActualContent';
+    T28 = class'WinterWar.WWVehicle_T28_ActualContent';
+    HT130 = class'WinterWar.WWVehicle_HT130_ActualContent';
+    ATGun = class'WinterWar.WWVehicle_53K_ActualContent';
+    Vickers = class'WinterWar.WWVehicle_Vickers_ActualContent';
+    //M113 = class'AmmoCrate.ACVehicle_M113_APC_Content';
 
     switch (VehicleName)
     {
         // Vanilla
         case "Cobra":
-        ROHelo = Spawn(Cobra, , , EndShot);
+        ROHelo = Spawn(Cobra, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Loach":
-        ROHelo = Spawn(Loach, , , EndShot);
+        ROHelo = Spawn(Loach, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Huey":
-        ROHelo = Spawn(Huey, , , EndShot);
+        ROHelo = Spawn(Huey, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Bushranger":
-        ROHelo = Spawn(Bushranger, , , EndShot);
+        ROHelo = Spawn(Bushranger, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         //GOM 4
         case "M113ACAV":
-        ROHelo = Spawn(M113ACAV, , , EndShot);
+        ROHelo = Spawn(M113ACAV, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         /*case "MUTT":
-		ROHelo = Spawn(MUTT, , , EndShot);
+		ROHelo = Spawn(MUTT, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "T34":
-		ROHelo = Spawn(T34, , , EndShot);
+		ROHelo = Spawn(T34, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "M113ARVN":
-		ROHelo = Spawn(M113ARVN, , , EndShot);
+		ROHelo = Spawn(M113ARVN, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;*/
 
         //Winter War
         case "T20":
-		ROHelo = Spawn(T20, , , EndShot);
+		ROHelo = Spawn(T20, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "T26":
-		ROHelo = Spawn(T26, , , EndShot);
+		ROHelo = Spawn(T26, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "T28":
-		ROHelo = Spawn(T28, , , EndShot);
+		ROHelo = Spawn(T28, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "HT130":
-		ROHelo = Spawn(HT130, , , EndShot);
+		ROHelo = Spawn(HT130, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "ATGun":
-		ROHelo = Spawn(ATGun, , , EndShot);
+		ROHelo = Spawn(ATGun, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Vickers":
-		ROHelo = Spawn(VICKERS, , , EndShot);
+		ROHelo = Spawn(VICKERS, , , EndShot, CamRot);
 		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
