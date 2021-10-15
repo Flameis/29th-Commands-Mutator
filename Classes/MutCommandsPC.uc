@@ -12,8 +12,10 @@ simulated function PreBeginPlay()
     }
 }
 
-simulated function AddObjectsToReferences()
+simulated function LoadObjects()
 {
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+
     ROMI.SharedContentReferences.Remove(0, ROMI.SharedContentReferences.Length);
 	class'WorldInfo'.static.GetWorldInfo().ForceGarbageCollection(TRUE);
     ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_Maxim_ActualContent", class'Class')));
@@ -31,27 +33,17 @@ simulated function AddObjectsToReferences()
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
-}
+    /*ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_MAC10_Silenced", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ61_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
 
-simulated function LoadObjects()
-{
-    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
-    DynamicLoadObject("ROGameContent.ROHeli_AH1G_Content", class'Class');
-    DynamicLoadObject("ROGameContent.ROHeli_OH6_Content", class'Class');
-    DynamicLoadObject("ROGameContent.ROHeli_UH1H_Content", class'Class');
-    DynamicLoadObject("ROGameContent.ROHeli_UH1H_Gunship_Content", class'Class');
-    DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class');
-    //DynamicLoadObject("GOM4.GOMVehicle_M113_ACAV_ActualContent", class'Class');
-    //DynamicLoadObject("GOM4.GOMVehicle_M113_APC_ARVN", class'Class');
-    //DynamicLoadObject("GOM4.GOMVehicle_M151_MUTT_US", class'Class');
-    //DynamicLoadObject("GOM4.GOMVehicle_T34_ActualContent", class'Class');
-    DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class');
-    DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class');
-    DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class');
-    DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class');
-    DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class');
-    DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class');
+
+    */
 }
 
 reliable client function ClientLoadObjects()
