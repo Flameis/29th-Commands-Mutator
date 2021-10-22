@@ -33,17 +33,6 @@ simulated function LoadObjects()
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
-    /*ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_MAC10_Silenced", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ61_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROWeapon>(DynamicLoadObject("GOM4.GOMWeapon_VZ25", class'Class')));
-
-
-
-    */
 }
 
 reliable client function ClientLoadObjects()

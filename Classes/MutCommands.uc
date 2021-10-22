@@ -86,12 +86,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 GiveWeapon(PC, Args[1], NameValid, false);
                 if (NameValid != "False")
                 {
-                    WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" spawned a "$Args[1]);
-                    `log("[29th Extras] "$PlayerName$" spawned a "$Args[1]$"");
+                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
+                    `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
                 else
                 {
-                    `log("[29th Extras] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
                 }
                 break;
@@ -100,12 +100,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 GiveWeapon(PC, Args[1], NameValid, true);
                 if (NameValid != "False")
                 {
-                    WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" gave a "$Args[1]$" to everyone");
-                    `log("[29th Extras] "$PlayerName$" spawned a "$Args[1]$"");
+                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to everyone");
+                    `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
                 else
                 {
-                    `log("[29th Extras] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
                 }
                 break;
@@ -114,12 +114,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 GiveWeapon(PC, Args[1], NameValid, false, `AXIS_TEAM_INDEX);
                 if (NameValid != "False")
                 {
-                    WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" gave a "$Args[1]$" to the north");
-                    `log("[29th Extras] "$PlayerName$" gave a "$Args[1]$" to the north");
+                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
+                    `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
                 }
                 else
                 {
-                    `log("[29th Extras] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
                 }
                 break;
@@ -128,26 +128,50 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 GiveWeapon(PC, Args[1], NameValid, false, `ALLIES_TEAM_INDEX);
                 if (NameValid != "False")
                 {
-                    WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" gave a "$Args[1]$" to the south");
-                    `log("[29th Extras] "$PlayerName$" gave a "$Args[1]$" to the south");
+                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
+                    `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
                 }
                 else
                 {
-                    `log("[29th Extras] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
                 }
+                break;
+
+                case "CLEARWEAPONS":
+                ClearWeapons(PC, false);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared their weapons");
+                `log("Clearing Weapons");
+                break;
+
+                case "CLEARWEAPONSALL":
+                ClearWeapons(PC, true);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared all weapons");
+                `log("Clearing Weapons");
+                break;
+
+                case "CLEARWEAPONSNORTH":
+                ClearWeapons(PC, false, `AXIS_TEAM_INDEX);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared north weapons");
+                `log("Clearing Weapons");
+                break;
+
+                case "CLEARWEAPONSSOUTH":
+                ClearWeapons(PC, false, `ALLIES_TEAM_INDEX);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared south weapons");
+                `log("Clearing Weapons");
                 break;
                 
                 case "SPAWNVEHICLE":
                 SpawnVehicle(PC, Args[1], NameValid);
                 if (NameValid != "False")
                 {
-                    WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" spawned a "$Args[1]);
-                    `log("[29th Extras] "$PlayerName$" spawned a "$Args[1]$"");
+                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
+                    `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
                 else
                 {
-                    `log("[29th Extras] Spawnvehicle failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                    `log("[MutCommands] Spawnvehicle failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid vehicle name.");
                 }
                 break;
@@ -160,25 +184,25 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 case "SetJumpZ":
                 SetJumpZ(PC, float(Args[1]));
                 `log("SetJumpZ");
-                WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" set their JumpZ to "$Args[1]);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their JumpZ to "$Args[1]);
                 break;
 
                 case "SetGravity":
                 SetGravity(PC, float(Args[1]));
                 `log("SetGravity");
-                WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" set gravity to "$Args[1]);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set gravity to "$Args[1]);
                 break;
 
                 case "SetSpeed":
                 SetSpeed(PC, float(Args[1]));
                 `log("SetSpeed");
-                WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" set their speed to "$Args[1]);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their speed to "$Args[1]);
                 break;
 
                 case "ChangeSize":
                 ChangeSize(PC, float(Args[1]));
                 `log("ChangeSize");
-                WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" set their size to "$Args[1]);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their size to "$Args[1]);
                 break;
 
                 case "ADDBOTS":
@@ -194,12 +218,33 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 case "ALLAMMO":
                 AllAmmo(PC);
                 `log("Infinite Ammo");
-                WorldInfo.Game.Broadcast(self, "[29th Extras] "$PlayerName$" toggled AllAmmo");
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" toggled AllAmmo");
+                break;
+
+                case"THIRDPERSON":
+                Camera(PC);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" went thirdperson");
+                break;
+
+                case"FIRSTPERSON":
+                Camera(PC, true);
                 break;
             }
 
 
     super.Mutate(MutateString, PC);
+}
+
+function Camera(playercontroller PC, optional bool First = false)
+{
+    if (First)
+	{
+		PC.SetCameraMode('FirstPerson');
+	}
+	else
+	{
+		PC.SetCameraMode('ThirdPerson');
+	}
 }
 
 function ClearVehicles()
@@ -558,16 +603,4 @@ function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)
             `log("Removed "$Weapon);
         }
     }
-}
-
-function Camera(playercontroller PC, optional bool First = false)
-{
-    if (First)
-	{
-		PC.SetCameraMode('FirstPerson');
-	}
-	else
-	{
-		PC.SetCameraMode('ThirdPerson');
-	}
 }
