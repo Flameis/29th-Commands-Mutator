@@ -1,0 +1,18 @@
+[MCRoleInfoCommanderNorth]
+MyName="COMMANDER"
+
+[MCRoleInfoCommanderSouth]
+MyName="COMMANDER"
+
+[MCRoleInfoCommanderSouthARVN]
+MyName="COMMANDER"
+
+[MCRoleInfoCommanderSouthAUS]
+MyName="COMMANDER"
+
+
+[MCRoleInfoTankCrewNorth]
+MyName="TANK CREW"
+
+[MCRoleInfoTankCrewSouth]
+MyName="TANK CREW"
