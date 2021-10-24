@@ -480,7 +480,7 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     local ROPawn                ROP;
 
     ROP = ROPawn(MCPC.Pawn);
-    
+
     NameValid = "True";
 
     if (GiveAll)
@@ -525,7 +525,7 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
         }
     }    
 
-    else if (!GiveAll && TeamIndex == none)
+    else
     {
     InvManager = ROInventoryManager(PC.Pawn.InvManager);
     switch (WeaponName)
@@ -593,7 +593,7 @@ function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)
         }
     }
 
-    else if (!GiveAll && TeamIndex == none)
+    else
     {
         ROIM = ROInventoryManager(PC.Pawn.InvManager);
         ROIM.GetWeaponList(WeaponsToRemove);
