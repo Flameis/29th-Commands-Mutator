@@ -12,6 +12,34 @@ simulated function PreBeginPlay()
     }
 }
 
+simulated function PostBeginPlay()
+{
+    local RORoleCount RORC;
+
+    `log("ACPlayerController.PostBeginPlay()");
+
+    super.PostBeginPlay();
+
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+
+    ForEach ROMI.NorthernRoles(RORC)
+    {
+        `log("RoleInfoClass = " $ RORC.RoleInfoClass);
+    }
+
+    ForEach ROMI.SouthernRoles(RORC)
+    {
+        `log("RoleInfoClass = " $ RORC.RoleInfoClass);
+    }
+}
+
+simulated function ReceivedGameClass(class<GameInfo> GameClass)
+{
+    super.ReceivedGameClass(GameClass);
+
+    ReplaceRoles();
+}
+
 simulated function LoadObjects()
 {
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
@@ -42,12 +70,56 @@ reliable client function ClientLoadObjects()
 
 simulated function ReplaceRoles()
 {
+    local RORoleCount NorthRoleCount, SouthRoleCount;
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
     if (ROMI != None)
-    { 
+    {
+        `log ("Replacing Roles");
+
+        switch (ROMI.SouthernForce)
+        {
+            case SFOR_USArmy:
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouth';
+            break;
+
+            case SFOR_USMC:
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouth';
+            break;
+
+            case SFOR_AusArmy:
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouthAUS';
+            break;
+
+            case SFOR_ARVN:
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouthARVN';
+            break;
+        }
         
-        
+        switch (ROMI.NorthernForce)
+        {
+            case NFOR_NVA:
+                ROMI.NorthernTeamLeader.roleinfo = none;
+                ROMI.NorthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderNorth';
+            break;
+
+            case NFOR_NLF:
+                ROMI.NorthernTeamLeader.roleinfo = none;
+                ROMI.NorthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderNorth';
+            break;
+        }
+
+        SouthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
+		SouthRoleCount.Count = 255;
+        ROMI.SouthernRoles.additem(SouthRoleCount);
+
+        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
+		NorthRoleCount.Count = 255;
+        ROMI.NorthernRoles.additem(NorthRoleCount);
     }
 }
 

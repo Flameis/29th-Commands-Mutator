@@ -4,13 +4,12 @@ Class MutCommands extends ROMutator
 var ROMapInfo           ROMI;
 var ROGameInfo          ROGI;
 var MutCommandsPC       MCPC;
-var string              PlayerName;
-var array<string>       Args;
-var string              command;
 
 function PreBeginPlay()
 {
     `log("MutCommands init");
+
+    ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MutCommandsPC';
 
     MCPC.LoadObjects();
 
@@ -19,7 +18,7 @@ function PreBeginPlay()
 
 function NotifyLogin(Controller NewPlayer)
 {
-    MCPC = ACPlayerController(NewPlayer);
+    MCPC = MutCommandsPC(NewPlayer);
 
     if (MCPC == None)
     {
@@ -74,7 +73,8 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 {
         local array<string> Args;
         local string        command;
-        local string NameValid;
+        local string        NameValid;
+        local string        PlayerName;
 
         Args = SplitString(MutateString, " ", true);
         command = Caps(Args[0]);
@@ -222,12 +222,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case"THIRDPERSON":
-                Camera(PC);
+                MCamera(PC);
                 WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" went thirdperson");
                 break;
 
                 case"FIRSTPERSON":
-                Camera(PC, true);
+                MCamera(PC, true);
                 break;
             }
 
@@ -235,7 +235,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
     super.Mutate(MutateString, PC);
 }
 
-function Camera(playercontroller PC, optional bool First = false)
+function MCamera(playercontroller PC, optional bool First = false)
 {
     if (First)
 	{
@@ -471,7 +471,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
 	StartShot   = CamLoc;
 	EndShot     = StartShot + (450.0 * X) + (300 * Z);
 
-	`include(29th-Commands-Mutator\Classes\VehicleNames.uci)
+	`include(MutCommands\Classes\VehicleNames.uci)
 }
 
 function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
@@ -480,8 +480,7 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     local ROPawn                ROP;
 
     ROP = ROPawn(MCPC.Pawn);
-    InvManager = ROInventoryManager(PC.Pawn.InvManager);
-
+    
     NameValid = "True";
 
     if (GiveAll)
@@ -489,10 +488,9 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
             InvManager = ROInventoryManager(ROP.InvManager);
-
             switch (WeaponName)
             {
-            `include(29th-Commands-Mutator\Classes\WeaponNames.uci)     
+            `include(MutCommands\Classes\WeaponNames.uci)     
             }
         }
     }   
@@ -501,11 +499,12 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     {
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
+            InvManager = ROInventoryManager(ROP.InvManager);
             if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
             {
                 switch (WeaponName)
                 {
-                `include(29th-Commands-Mutator\Classes\WeaponNames.uci)     
+                `include(MutCommands\Classes\WeaponNames.uci)     
                 }
             }
         }
@@ -515,21 +514,23 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     {
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
+            InvManager = ROInventoryManager(ROP.InvManager);
             if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
             {
                 switch (WeaponName)
                 {
-                `include(29th-Commands-Mutator\Classes\WeaponNames.uci)     
+                `include(MutCommands\Classes\WeaponNames.uci)     
                 }
             }
         }
     }    
 
-    else
+    else if (!GiveAll && TeamIndex == none)
     {
+    InvManager = ROInventoryManager(PC.Pawn.InvManager);
     switch (WeaponName)
         {
-        `include(29th-Commands-Mutator\Classes\WeaponNames.uci)     
+        `include(MutCommands\Classes\WeaponNames.uci)     
         }
     } 
 }
@@ -592,7 +593,7 @@ function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)
         }
     }
 
-    else
+    else if (!GiveAll && TeamIndex == none)
     {
         ROIM = ROInventoryManager(PC.Pawn.InvManager);
         ROIM.GetWeaponList(WeaponsToRemove);
