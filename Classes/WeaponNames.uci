@@ -322,6 +322,21 @@
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_XM21Scoped_Rifle_Level2", false, true);
 
             break;
+
+            case "MATTOCK":
+            InvManager.LoadAndCreateInventory("ROGameContent.ROItem_TunnelTool_Content", false, true);
+
+            break;
+
+            case "BINOSNORTH":
+            InvManager.LoadAndCreateInventory("ROGameContent.ROItem_Binoculars_Content", false, true);
+
+            break;
+
+            case "BINOSSOUTH":
+            InvManager.LoadAndCreateInventory("ROGameContent.ROItem_BinocularsUS_Content", false, true);
+
+            break;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 29th Extras
 
             case "USAMMO":

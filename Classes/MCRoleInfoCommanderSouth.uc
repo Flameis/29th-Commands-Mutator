@@ -13,7 +13,7 @@ DefaultProperties
 {
 	RoleType=RORIT_Commander
 	ClassTier=4
-	ClassIndex=10
+	ClassIndex=11
 	bIsTeamLeader=true
 	bBotSelectable = false
 

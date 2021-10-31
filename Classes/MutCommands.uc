@@ -4,14 +4,23 @@ Class MutCommands extends ROMutator
 var ROMapInfo           ROMI;
 var ROGameInfo          ROGI;
 var MutCommandsPC       MCPC;
+var ROPlayerController  ROPC;
 
 function PreBeginPlay()
 {
     `log("MutCommands init");
 
-    ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MutCommandsPC';
+    if (ROGameInfo(WorldInfo.Game).PlayerControllerClass == class'ROPlayerController')
+    {
+        ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MutCommandsPC';
+    }
+    else
+    {
+        ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+        ROMI.SouthernRoles[8].Count = 100;
+    }
 
-    MCPC.LoadObjects();
+    LoadObjects();
 
     super.PreBeginPlay();
 }
@@ -20,15 +29,17 @@ function NotifyLogin(Controller NewPlayer)
 {
     MCPC = MutCommandsPC(NewPlayer);
 
+    ClientLoadObjects(NewPlayer);
+
     if (MCPC == None)
     {
         `log("Error replacing roles");
-        return;
     }
-
-    MCPC.ClientLoadObjects();
-    MCPC.ReplaceRoles();
-    MCPC.ClientReplaceRoles();
+    if (MCPC != None)
+    {
+        MCPC.ReplaceRoles();
+        MCPC.ClientReplaceRoles();
+    }
 
     super.NotifyLogin(NewPlayer);
 }
@@ -66,7 +77,35 @@ function RemoveVolumes()
     ++Count;
     }
 
-    `log ("Removed "$Count$" Volumes" );
+    //`log ("Removed "$Count$" Volumes" );
+}
+
+simulated function LoadObjects()
+{
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+
+    ROMI.SharedContentReferences.Remove(0, ROMI.SharedContentReferences.Length);
+	class'WorldInfo'.static.GetWorldInfo().ForceGarbageCollection(TRUE);
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_Maxim_ActualContent", class'Class')));
+	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_QuadMaxims_ActualContent", class'Class')));
+	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("ROGameContent.ROWeap_M2_HMG_Tripod_Content", class'Class')));
+	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("ROGameContent.ROWeap_DShK_HMG_Tripod_Content", class'Class')));
+	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_AH1G_Content", class'Class')));
+	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_OH6_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Gunship_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
+}
+
+reliable client function ClientLoadObjects(Controller NewPlayer)
+{
+    LoadObjects();
 }
 
 function Mutate(string MutateString, PlayerController PC) //no prefixes, also call super function!
@@ -76,6 +115,8 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
         local string        NameValid;
         local string        PlayerName;
 
+	    ROGI = ROGameInfo(WorldInfo.Game);
+
         Args = SplitString(MutateString, " ", true);
         command = Caps(Args[0]);
         PlayerName = PC.PlayerReplicationInfo.PlayerName;
@@ -83,7 +124,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
             Switch (Command)
             {
                 case "GIVEWEAPON":
-                GiveWeapon(PC, Args[1], NameValid, false);
+                GiveWeapon(PC, Args[1], NameValid, false, 100);
                 if (NameValid != "False")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
@@ -139,7 +180,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case "CLEARWEAPONS":
-                ClearWeapons(PC, false);
+                ClearWeapons(PC, false, 100);
                 WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared their weapons");
                 `log("Clearing Weapons");
                 break;
@@ -221,7 +262,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" toggled AllAmmo");
                 break;
 
-                case"THIRDPERSON":
+                case "THIRDPERSON":
                 MCamera(PC);
                 WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" went thirdperson");
                 break;
@@ -229,9 +270,11 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 case"FIRSTPERSON":
                 MCamera(PC, true);
                 break;
+
+                case "SWAPTEAMS":
+                ROGI.SwapTeams();
+                break;
             }
-
-
     super.Mutate(MutateString, PC);
 }
 
@@ -287,7 +330,7 @@ function SetGravity(PlayerController PC, float F )
 
 function SetSpeed(PlayerController PC, float F )
 {
-    if (0.5 <= F && F <= 5)
+    if (0.1 <= F && F <= 5)
 	{
         PC.Pawn.GroundSpeed = PC.Pawn.Default.GroundSpeed * F;
 	    PC.Pawn.WaterSpeed = PC.Pawn.Default.WaterSpeed * F;
@@ -525,7 +568,7 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
         }
     }    
 
-    else
+    else if (TeamIndex == 100)
     {
     InvManager = ROInventoryManager(PC.Pawn.InvManager);
     switch (WeaponName)
@@ -593,7 +636,7 @@ function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)
         }
     }
 
-    else
+    else if (TeamIndex == 100)
     {
         ROIM = ROInventoryManager(PC.Pawn.InvManager);
         ROIM.GetWeaponList(WeaponsToRemove);
