@@ -1,4 +1,4 @@
-class MutCommandsPC extends ROPlayerController;
+class MCPlayerController extends ROPlayerController;
 
 var ROMapInfo                   ROMI;
 
@@ -42,12 +42,20 @@ simulated function ReceivedGameClass(class<GameInfo> GameClass)
 
 simulated function ReplaceRoles()
 {
-    local RORoleCount NorthRoleCount, SouthRoleCount;
+    local RORoleCount NorthRoleCount, SouthRoleCount1, SouthRoleCount2, SouthRoleCount3;
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
     if (ROMI != None)
     {
         `log ("Replacing Roles");
+
+        SouthRoleCount3.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
+		SouthRoleCount3.Count = 255;
+        ROMI.SouthernRoles.additem(SouthRoleCount3);
+
+        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
+		NorthRoleCount.Count = 255;
+        ROMI.NorthernRoles.additem(NorthRoleCount);
 
         switch (ROMI.SouthernForce)
         {
@@ -55,52 +63,52 @@ simulated function ReplaceRoles()
                 ROMI.SouthernTeamLeader.roleinfo = none;
                 ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouth';
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernPilot';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilot';
+		        SouthRoleCount1.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount1);
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernTransportPilot';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilot';
+		        SouthRoleCount2.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount2);
             break;
 
             case SFOR_USMC:
                 ROMI.SouthernTeamLeader.roleinfo = none;
                 ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouth';
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernPilot';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilot';
+		        SouthRoleCount1.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount1);
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernTransportPilot';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilot';
+		        SouthRoleCount2.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount2);
             break;
 
             case SFOR_AusArmy:
                 ROMI.SouthernTeamLeader.roleinfo = none;
                 ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouthAUS';
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernPilotAUS';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilotAUS';
+		        SouthRoleCount1.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount1);
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernTransportPilotAUS';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilotAUS';
+		        SouthRoleCount2.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount2);
             break;
 
             case SFOR_ARVN:
                 ROMI.SouthernTeamLeader.roleinfo = none;
                 ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouthARVN';
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernPilotARVN';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilotARVN';
+		        SouthRoleCount1.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount1);
 
-                SouthRoleCount.RoleInfoClass = class'RORoleInfoSouthernTransportPilotARVN';
-		        SouthRoleCount.Count = 255;
-                ROMI.SouthernRoles.additem(SouthRoleCount);
+                SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilotARVN';
+		        SouthRoleCount2.Count = 255;
+                ROMI.SouthernRoles.additem(SouthRoleCount2);
             break;
         }
         
@@ -116,14 +124,6 @@ simulated function ReplaceRoles()
                 ROMI.NorthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderNorth';
             break;
         }
-
-        SouthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
-		SouthRoleCount.Count = 255;
-        ROMI.SouthernRoles.additem(SouthRoleCount);
-
-        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
-		NorthRoleCount.Count = 255;
-        ROMI.NorthernRoles.additem(NorthRoleCount);
     }
 }
 

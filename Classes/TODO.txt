@@ -1,0 +1,6 @@
+Put vanilla guns in 29th extras
+Fix claymore
+else if (bisPC())
+skis for both teams - done
+Capture the flag mode - done
+make commands for loading things - done

@@ -3,33 +3,44 @@ Class MutCommands extends ROMutator
 
 var ROMapInfo           ROMI;
 var ROGameInfo          ROGI;
-var MutCommandsPC       MCPC;
+var MCPlayerController  MCPC;
 var ROPlayerController  ROPC;
-
+var bool                bCTFon;
+var int                 CountDisabled, CountEnabled;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function PreBeginPlay()
 {
     `log("MutCommands init");
 
     if (ROGameInfo(WorldInfo.Game).PlayerControllerClass == class'ROPlayerController')
     {
-        ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MutCommandsPC';
+        ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MCPlayerController';
     }
     else
     {
         ROMI = ROMapInfo(WorldInfo.GetMapInfo());
-        ROMI.SouthernRoles[8].Count = 100;
+        ROMI.SouthernRoles[8].Count = 255;
     }
 
-    LoadObjects();
+    LoadObjectsInit();
 
     super.PreBeginPlay();
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function bool bisPC()
+{
+    if (ROGameInfo(WorldInfo.Game).PlayerControllerClass == class'MCPlayerController')
+    {
+        return true;
+    }
+    else {return false;}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function NotifyLogin(Controller NewPlayer)
 {
-    MCPC = MutCommandsPC(NewPlayer);
+    MCPC = MCPlayerController(NewPlayer);
 
-    ClientLoadObjects(NewPlayer);
+    //ClientLoadObjects(NewPlayer);
 
     if (MCPC == None)
     {
@@ -43,71 +54,78 @@ function NotifyLogin(Controller NewPlayer)
 
     super.NotifyLogin(NewPlayer);
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 auto state StartUp
 {
     function timer()
     {
         RemoveVolumes();
     }
+    function timer2()
+    {
+        SetVicTeam();
+    }
         
     Begin:
-    SetTimer( 10, true );
+    SetTimer( 20, true );
+    SetTimer( 1, true, 'timer2');
 }
-
-function PrivateMessage(PlayerController receiver, coerce string msg)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function SetVicTeam()
 {
-    receiver.TeamMessage(None, msg, '');
-}
+    local ROVehicle ROV;
+    local string    Team;
 
+    foreach DynamicActors(class'ROVehicle', ROV)
+    {
+        if (ROV.bDriving == true && ROV.Team != ROV.Driver.GetTeamNum())
+        {     
+        ROV.Team = ROV.Driver.GetTeamNum();
+        `log("Set "$ROV$" to team "$ROV.Driver.GetTeamNum());
+            if (bCTFon)
+            {
+                if (ROV.Driver.GetTeamNum() == 0) {Team = "North";}
+                else {Team = "South";}
+                WorldInfo.Game.Broadcast(self, "The "$ROV$" was captured by the "$Team);
+            }
+        }
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function RemoveVolumes()
 {
     local ROVolumeNoArtillery ROVNA;
-    local ROVolumeSpawnProtection ROVSP;
-    local int count;
 
-    foreach allactors(class'ROVolumeNoArtillery', ROVNA)
+    if (CountDisabled == 0)
     {
-    ROVNA.SetEnabled( False );
-    ++Count;
+        foreach AllActors(class'ROVolumeNoArtillery', ROVNA)
+        {
+            if (ROVNA.bEnabled == true) {ROVNA.SetEnabled(False); CountDisabled++;}
+        }
+        `log ("Set "$CountDisabled$" ROVNA disabled");
     }
-    foreach allactors(class'ROVolumeSpawnProtection', ROVSP)
-    {
-    ROVSP.SetEnabled( False );
-    ++Count;
-    }
-
-    //`log ("Removed "$Count$" Volumes" );
 }
-
-simulated function LoadObjects()
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function LoadObjectsInit()
 {
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
     ROMI.SharedContentReferences.Remove(0, ROMI.SharedContentReferences.Length);
 	class'WorldInfo'.static.GetWorldInfo().ForceGarbageCollection(TRUE);
-    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_Maxim_ActualContent", class'Class')));
-	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_QuadMaxims_ActualContent", class'Class')));
+
 	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("ROGameContent.ROWeap_M2_HMG_Tripod_Content", class'Class')));
 	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("ROGameContent.ROWeap_DShK_HMG_Tripod_Content", class'Class')));
 	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_AH1G_Content", class'Class')));
 	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_OH6_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Gunship_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
 }
-
-reliable client function ClientLoadObjects(Controller NewPlayer)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function PrivateMessage(PlayerController receiver, coerce string msg)
 {
-    LoadObjects();
+    receiver.TeamMessage(None, msg, '');
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Mutate(string MutateString, PlayerController PC) //no prefixes, also call super function!
 {
         local array<string> Args;
@@ -273,23 +291,224 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 
                 case "SWAPTEAMS":
                 ROGI.SwapTeams();
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping teams");
+                break;
+
+                case "LOADGOM":
+                LoadGOMObjects();
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded GOM");
+                break;
+
+                case "LOADWW":
+                LoadWinterWarObjects();
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded Winter War");
+                break;
+
+                case "CAPTURETHEFLAG":
+                CTFToggle();
                 break;
             }
     super.Mutate(MutateString, PC);
 }
-
-function MCamera(playercontroller PC, optional bool First = false)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
 {
-    if (First)
-	{
-		PC.SetCameraMode('FirstPerson');
-	}
-	else
-	{
-		PC.SetCameraMode('ThirdPerson');
-	}
-}
+	local ROInventoryManager        InvManager;
+    local ROPawn                    ROP;
 
+    NameValid = "True";
+
+    if (GiveAll)
+    { 
+    foreach worldinfo.allpawns(class'ROPawn', ROP)
+        {
+            InvManager = ROInventoryManager(ROP.InvManager);
+            switch (WeaponName)
+            {
+            `include(MutCommands\Classes\WeaponNames.uci)     
+            }
+            if (bisPC())
+            {
+                switch (WeaponName)
+                {
+                `include(MutCommands\Classes\WeaponNamesVanilla.uci)
+                }
+            }
+        }
+    }   
+
+    else if (TeamIndex == `AXIS_TEAM_INDEX)
+    {
+    foreach worldinfo.allpawns(class'ROPawn', ROP)
+        {
+            InvManager = ROInventoryManager(ROP.InvManager);
+            if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
+            {
+                switch (WeaponName)
+                {
+                `include(MutCommands\Classes\WeaponNames.uci)     
+                }
+                if (bisPC())
+                {
+                    switch (WeaponName)
+                    {
+                    `include(MutCommands\Classes\WeaponNamesVanilla.uci)
+                    }
+                }
+            }
+        }
+    }    
+
+    else if (TeamIndex == `ALLIES_TEAM_INDEX)
+    {
+    foreach worldinfo.allpawns(class'ROPawn', ROP)
+        {
+            InvManager = ROInventoryManager(ROP.InvManager);
+            if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
+            {
+                switch (WeaponName)
+                {
+                `include(MutCommands\Classes\WeaponNames.uci)     
+                }
+                if (bisPC())
+                {
+                    switch (WeaponName)
+                    {
+                    `include(MutCommands\Classes\WeaponNamesVanilla.uci)
+                    }
+                }
+            }
+        }
+    }    
+
+    else if (TeamIndex == 100)
+    {
+    InvManager = ROInventoryManager(PC.Pawn.InvManager);
+    switch (WeaponName)
+        {
+        `include(MutCommands\Classes\WeaponNames.uci)     
+        }
+        if (bisPC())
+        {
+            switch (WeaponName)
+            {
+            `include(MutCommands\Classes\WeaponNamesVanilla.uci)
+            }
+        }
+    } 
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)
+{
+    local array<ROWeapon>       WeaponsToRemove;
+    local ROWeapon              Weapon;
+    local ROInventoryManager    ROIM;
+    local ROPawn                ROP;
+
+    if (GiveAll)
+    { 
+    foreach worldinfo.allpawns(class'ROPawn', ROP)
+        {
+            ROIM = ROInventoryManager(ROP.InvManager);
+            ROIM.GetWeaponList(WeaponsToRemove);
+
+            foreach WeaponsToRemove(Weapon)
+            {
+                ROIM.RemoveFromInventory(Weapon);
+                `log("Removed "$Weapon);
+            }
+        }
+    }   
+
+    else if (TeamIndex == `AXIS_TEAM_INDEX)
+    {
+    foreach worldinfo.allpawns(class'ROPawn', ROP)
+        {
+            if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
+            {
+                ROIM = ROInventoryManager(ROP.InvManager);
+                ROIM.GetWeaponList(WeaponsToRemove);
+
+                foreach WeaponsToRemove(Weapon)
+                {
+                    ROIM.RemoveFromInventory(Weapon);
+                    `log("Removed "$Weapon);
+                }
+            }
+        }
+    }
+
+    else if (TeamIndex == `ALLIES_TEAM_INDEX)
+    {
+    foreach worldinfo.allpawns(class'ROPawn', ROP)
+        {
+            if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
+            {
+                ROIM = ROInventoryManager(ROP.InvManager);
+                ROIM.GetWeaponList(WeaponsToRemove);
+
+                foreach WeaponsToRemove(Weapon)
+                {
+                    ROIM.RemoveFromInventory(Weapon);
+                    `log("Removed "$Weapon);
+                }
+            }
+        }
+    }
+
+    else if (TeamIndex == 100)
+    {
+        ROIM = ROInventoryManager(PC.Pawn.InvManager);
+        ROIM.GetWeaponList(WeaponsToRemove);
+
+        foreach WeaponsToRemove(Weapon)
+        {
+            ROIM.RemoveFromInventory(Weapon);
+            `log("Removed "$Weapon);
+        }
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function SpawnVehicle(PlayerController PC, string VehicleName, out string NameValid)
+{
+	local vector                    CamLoc, StartShot, EndShot, X, Y, Z;
+	local rotator                   CamRot;
+	local class<ROVehicle>          Cobra;
+    local class<ROVehicle>          Loach;
+    local class<ROVehicle>          Huey;
+    local class<ROVehicle>          Bushranger;
+    local class<ROVehicle>          M113ACAV;
+    local class<ROVehicle>          T20;
+    local class<ROVehicle>          T26;
+    local class<ROVehicle>          T28;
+    local class<ROVehicle>          HT130;
+    local class<ROVehicle>          ATGun;
+    local class<ROVehicle>          Vickers;
+    local class<ROVehicle>          Skis;
+    //local class<ROVehicle>          T34;
+    //local class<ROVehicle>          T54;
+    //local class<ROVehicle>          MUTT;
+    //local class<ROVehicle>          M113ARVN;
+    //local class<ROVehicle>          M113;
+	local ROVehicle                 ROHelo;
+    local ROPawn                    ROP;
+
+    NameValid = "true";
+
+    ROP = ROPawn(PC.Pawn);
+    // Do ray check and grab actor
+	PC.GetPlayerViewPoint(CamLoc, CamRot);
+	GetAxes(CamRot, X, Y, Z );
+	StartShot   = CamLoc;
+	EndShot     = StartShot + (450.0 * X) + (300 * Z);
+
+	`include(MutCommands\Classes\VehicleNames.uci)
+
+    ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
+    ROHelo.bTeamLocked = false;
+    ROHelo.Team = 2;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function ClearVehicles()
 {
 	local ROVehicle ROV;
@@ -301,7 +520,7 @@ function ClearVehicles()
 			ROV.Destroy();
 	}
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function SetJumpZ(PlayerController PC, float F )
 {
         if (0.5 <= F && F <= 10)
@@ -314,7 +533,7 @@ function SetJumpZ(PlayerController PC, float F )
             `log("Error");
         }
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function SetGravity(PlayerController PC, float F )
 {
         if (-1000 <= F && F <= 1000)
@@ -327,7 +546,7 @@ function SetGravity(PlayerController PC, float F )
             `log("Error");
         }
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function SetSpeed(PlayerController PC, float F )
 {
     if (0.1 <= F && F <= 5)
@@ -342,7 +561,7 @@ function SetSpeed(PlayerController PC, float F )
         `log("Error");
     }
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function ChangeSize(PlayerController PC, float F )
 {
     if (0.1 <= F && F <= 50)
@@ -359,7 +578,7 @@ function ChangeSize(PlayerController PC, float F )
         `log("Error");
     }
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 {
 	local ROAIController ROBot;
@@ -459,7 +678,7 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 		ROGI.UpdateGameSettingsCounts();
 	}
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function RemoveBots()
 {
     local ROAIController ROB;
@@ -471,180 +690,75 @@ function RemoveBots()
         ROB.Pawn.Destroy();
     }
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function AllAmmo(PlayerController PC)
 {
 	ROInventoryManager(PC.Pawn.InvManager).AllAmmo(true);
 	ROInventoryManager(PC.Pawn.InvManager).bInfiniteAmmo = true;
 	ROInventoryManager(PC.Pawn.InvManager).DisableClientAmmoTracking();
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function MCamera(playercontroller PC, optional bool First = false)
+{
+    if (First)
+	{
+		PC.SetCameraMode('FirstPerson');
+	}
+	else
+	{
+		PC.SetCameraMode('ThirdPerson');
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function LoadGOMObjects()
+{
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function LoadWinterWarObjects()
+{
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_Maxim_ActualContent", class'Class')));
+	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("WinterWar.WWWeapon_QuadMaxims_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function CTFToggle()
+{
+    if (!bCTFon)
+    {
+    WorldInfo.Game.Broadcast(self, "[MutCommands] Capture the flag mode is now on");
+    bCTFon = !bCTFon;
+    }
+    else
+    {
+    WorldInfo.Game.Broadcast(self, "[MutCommands] Capture the flag mode is now off");
+    bCTFon = !bCTFon;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 function SpawnObject(PlayerController PC, string S)
 {
     //For spawning barricades maybe?
 }
 
-function SpawnVehicle(PlayerController PC, string VehicleName, out string NameValid)
+defaultproperties
 {
-	local vector                    CamLoc, StartShot, EndShot, X, Y, Z;
-	local rotator                   CamRot;
-	local class<ROVehicle>          Cobra;
-    local class<ROVehicle>          Loach;
-    local class<ROVehicle>          Huey;
-    local class<ROVehicle>          Bushranger;
-    local class<ROVehicle>          M113ACAV;
-    local class<ROVehicle>          T20;
-    local class<ROVehicle>          T26;
-    local class<ROVehicle>          T28;
-    local class<ROVehicle>          HT130;
-    local class<ROVehicle>          ATGun;
-    local class<ROVehicle>          Vickers;
-    //local class<ROVehicle>          T34;
-    //local class<ROVehicle>          T54;
-    //local class<ROVehicle>          MUTT;
-    //local class<ROVehicle>          M113ARVN;
-    //local class<ROVehicle>          M113;
-	local ROVehicle ROHelo;
-
-    NameValid = "true";
-
-    // Do ray check and grab actor
-	PC.GetPlayerViewPoint(CamLoc, CamRot);
-	GetAxes(CamRot, X, Y, Z );
-	StartShot   = CamLoc;
-	EndShot     = StartShot + (450.0 * X) + (300 * Z);
-
-	`include(MutCommands\Classes\VehicleNames.uci)
-}
-
-function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
-{
-	local ROInventoryManager    InvManager;
-    local ROPawn                ROP;
-
-    ROP = ROPawn(MCPC.Pawn);
-
-    NameValid = "True";
-
-    if (GiveAll)
-    { 
-    foreach worldinfo.allpawns(class'ROPawn', ROP)
-        {
-            InvManager = ROInventoryManager(ROP.InvManager);
-            switch (WeaponName)
-            {
-            `include(MutCommands\Classes\WeaponNames.uci)     
-            }
-        }
-    }   
-
-    else if (TeamIndex == `AXIS_TEAM_INDEX)
-    {
-    foreach worldinfo.allpawns(class'ROPawn', ROP)
-        {
-            InvManager = ROInventoryManager(ROP.InvManager);
-            if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
-            {
-                switch (WeaponName)
-                {
-                `include(MutCommands\Classes\WeaponNames.uci)     
-                }
-            }
-        }
-    }    
-
-    else if (TeamIndex == `ALLIES_TEAM_INDEX)
-    {
-    foreach worldinfo.allpawns(class'ROPawn', ROP)
-        {
-            InvManager = ROInventoryManager(ROP.InvManager);
-            if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
-            {
-                switch (WeaponName)
-                {
-                `include(MutCommands\Classes\WeaponNames.uci)     
-                }
-            }
-        }
-    }    
-
-    else if (TeamIndex == 100)
-    {
-    InvManager = ROInventoryManager(PC.Pawn.InvManager);
-    switch (WeaponName)
-        {
-        `include(MutCommands\Classes\WeaponNames.uci)     
-        }
-    } 
-}
-
-function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)
-{
-    local array<ROWeapon>       WeaponsToRemove;
-    local ROWeapon              Weapon;
-    local ROInventoryManager    ROIM;
-    local ROPawn                ROP;
-
-    if (GiveAll)
-    { 
-    foreach worldinfo.allpawns(class'ROPawn', ROP)
-        {
-            ROIM = ROInventoryManager(ROP.InvManager);
-            ROIM.GetWeaponList(WeaponsToRemove);
-
-            foreach WeaponsToRemove(Weapon)
-            {
-                ROIM.RemoveFromInventory(Weapon);
-                `log("Removed "$Weapon);
-            }
-        }
-    }   
-
-    else if (TeamIndex == `AXIS_TEAM_INDEX)
-    {
-    foreach worldinfo.allpawns(class'ROPawn', ROP)
-        {
-            if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
-            {
-                ROIM = ROInventoryManager(ROP.InvManager);
-                ROIM.GetWeaponList(WeaponsToRemove);
-
-                foreach WeaponsToRemove(Weapon)
-                {
-                    ROIM.RemoveFromInventory(Weapon);
-                    `log("Removed "$Weapon);
-                }
-            }
-        }
-    }
-
-    else if (TeamIndex == `ALLIES_TEAM_INDEX)
-    {
-    foreach worldinfo.allpawns(class'ROPawn', ROP)
-        {
-            if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
-            {
-                ROIM = ROInventoryManager(ROP.InvManager);
-                ROIM.GetWeaponList(WeaponsToRemove);
-
-                foreach WeaponsToRemove(Weapon)
-                {
-                    ROIM.RemoveFromInventory(Weapon);
-                    `log("Removed "$Weapon);
-                }
-            }
-        }
-    }
-
-    else if (TeamIndex == 100)
-    {
-        ROIM = ROInventoryManager(PC.Pawn.InvManager);
-        ROIM.GetWeaponList(WeaponsToRemove);
-
-        foreach WeaponsToRemove(Weapon)
-        {
-            ROIM.RemoveFromInventory(Weapon);
-            `log("Removed "$Weapon);
-        }
-    }
+    bCTFon = false
+    CountEnabled = 0
 }

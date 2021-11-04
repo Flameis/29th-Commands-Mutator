@@ -14,6 +14,7 @@
     HT130 = class'WinterWar.WWVehicle_HT130_ActualContent';
     ATGun = class'WinterWar.WWVehicle_53K_ActualContent';
     Vickers = class'WinterWar.WWVehicle_Vickers_ActualContent';
+    Skis = class'WinterWar.WWVehicle_Skis_ActualContent';
     //M113 = class'AmmoCrate.ACVehicle_M113_APC_Content';
 
     switch (VehicleName)
@@ -21,80 +22,72 @@
         // Vanilla
         case "Cobra":
         ROHelo = Spawn(Cobra, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Loach":
         ROHelo = Spawn(Loach, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Huey":
         ROHelo = Spawn(Huey, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Bushranger":
         ROHelo = Spawn(Bushranger, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         //GOM 4
         case "M113ACAV":
         ROHelo = Spawn(M113ACAV, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         /*case "MUTT":
 		ROHelo = Spawn(MUTT, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "T34":
 		ROHelo = Spawn(T34, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "M113ARVN":
 		ROHelo = Spawn(M113ARVN, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
         
         case "T54":
 		ROHelo = Spawn(T54, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
         */
 
         //Winter War
         case "T20":
 		ROHelo = Spawn(T20, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "T26":
 		ROHelo = Spawn(T26, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "T28":
 		ROHelo = Spawn(T28, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "HT130":
 		ROHelo = Spawn(HT130, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "ATGun":
 		ROHelo = Spawn(ATGun, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
         break;
 
         case "Vickers":
 		ROHelo = Spawn(VICKERS, , , EndShot, camrot);
-		ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
+        break;
+
+        case "Skis":
+		ROHelo = Spawn(Skis, , , EndShot, camrot);
+        ROHelo.bTeamLocked = false;
+        ROHelo.Team = 2;
+        ROHelo.TryToDrive(ROP);
         break;
 
         default:
