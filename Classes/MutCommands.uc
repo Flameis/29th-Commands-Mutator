@@ -143,7 +143,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
             {
                 case "GIVEWEAPON":
                 GiveWeapon(PC, Args[1], NameValid, false, 100);
-                if (NameValid != "False")
+                if (NameValid != "False" )
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
@@ -323,10 +323,6 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
             InvManager = ROInventoryManager(ROP.InvManager);
-            switch (WeaponName)
-            {
-            `include(MutCommands\Classes\WeaponNames.uci)     
-            }
             if (bisPC())
             {
                 switch (WeaponName)
@@ -334,20 +330,43 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
                 `include(MutCommands\Classes\WeaponNamesVanilla.uci)
                 }
             }
+            switch (WeaponName)
+            {
+            `include(MutCommands\Classes\WeaponNames.uci)     
+            }
         }
     }   
 
-    else if (TeamIndex == `AXIS_TEAM_INDEX)
+    else if (TeamIndex == 100)
+    {
+    InvManager = ROInventoryManager(PC.Pawn.InvManager);
+        if (bisPC())
+        {
+            switch (WeaponName)
+            {
+            `include(MutCommands\Classes\WeaponNamesVanilla.uci)
+            }
+        }
+        switch (WeaponName)
+        {
+        `include(MutCommands\Classes\WeaponNames.uci)     
+        }
+    }    
+
+    else {giveweapon2(PC, WeaponName, NameValid, GiveAll, TeamIndex);}
+}
+function giveweapon2(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
+{
+    local ROInventoryManager        InvManager;
+    local ROPawn                    ROP;
+
+    if (TeamIndex == `AXIS_TEAM_INDEX)
     {
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
             InvManager = ROInventoryManager(ROP.InvManager);
             if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
             {
-                switch (WeaponName)
-                {
-                `include(MutCommands\Classes\WeaponNames.uci)     
-                }
                 if (bisPC())
                 {
                     switch (WeaponName)
@@ -355,9 +374,13 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
                     `include(MutCommands\Classes\WeaponNamesVanilla.uci)
                     }
                 }
+                switch (WeaponName)
+                {
+                `include(MutCommands\Classes\WeaponNames.uci)     
+                }
             }
         }
-    }    
+    } 
 
     else if (TeamIndex == `ALLIES_TEAM_INDEX)
     {
@@ -366,10 +389,6 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
             InvManager = ROInventoryManager(ROP.InvManager);
             if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
             {
-                switch (WeaponName)
-                {
-                `include(MutCommands\Classes\WeaponNames.uci)     
-                }
                 if (bisPC())
                 {
                     switch (WeaponName)
@@ -377,25 +396,13 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
                     `include(MutCommands\Classes\WeaponNamesVanilla.uci)
                     }
                 }
+                switch (WeaponName)
+                {
+                `include(MutCommands\Classes\WeaponNames.uci)     
+                }
             }
         }
     }    
-
-    else if (TeamIndex == 100)
-    {
-    InvManager = ROInventoryManager(PC.Pawn.InvManager);
-    switch (WeaponName)
-        {
-        `include(MutCommands\Classes\WeaponNames.uci)     
-        }
-        if (bisPC())
-        {
-            switch (WeaponName)
-            {
-            `include(MutCommands\Classes\WeaponNamesVanilla.uci)
-            }
-        }
-    } 
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function ClearWeapons(PlayerController PC, bool GiveAll, optional int TeamIndex)

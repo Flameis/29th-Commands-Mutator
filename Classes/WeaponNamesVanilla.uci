@@ -346,7 +346,3 @@
             case "FOUGQUAD":
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_FougQuadContent", false, true);
             break;
-
-            default:
-            NameValid = "False";
-            break;
