@@ -1,7 +1,9 @@
-Put vanilla guns in 29th extras
-Fix claymore
-else if (bisPC())
+fix double messaging
+Swap teams command? - done
+Put vanilla guns in 29th extras - done
 Both teams can drive ground vehicles. - done
 skis for both teams - done
 Capture the flag mode - done
 make commands for loading things - done
+Fix claymore - done
+Fix Molotov - done

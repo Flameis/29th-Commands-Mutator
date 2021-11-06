@@ -290,7 +290,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case "SWAPTEAMS":
-                ROGI.SwapTeams();
+                SwapTeams();
                 WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping teams");
                 break;
 
@@ -355,10 +355,13 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
 
     else {giveweapon2(PC, WeaponName, NameValid, GiveAll, TeamIndex);}
 }
+
 function giveweapon2(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
 {
     local ROInventoryManager        InvManager;
     local ROPawn                    ROP;
+
+    NameValid = "True";
 
     if (TeamIndex == `AXIS_TEAM_INDEX)
     {
@@ -715,6 +718,14 @@ function MCamera(playercontroller PC, optional bool First = false)
 	{
 		PC.SetCameraMode('ThirdPerson');
 	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function SwapTeams()
+{
+    foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
+    {
+        ROPC.SwapTeam();
+    }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function LoadGOMObjects()
