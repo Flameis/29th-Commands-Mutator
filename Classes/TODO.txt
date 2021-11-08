@@ -1,9 +1,24 @@
-fix double messaging
-Swap teams command? - done
-Put vanilla guns in 29th extras - done
-Both teams can drive ground vehicles. - done
-skis for both teams - done
-Capture the flag mode - done
-make commands for loading things - done
-Fix claymore - done
-Fix Molotov - done
+Fix highway 14 29th edit
+Remake map reference?
+add swap teams to MutRealismMatch
+commands for spawning fire support
+remove volumes on round end?
+swapnorth and swapsouth
+
+
+
+Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
+Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
+
+
+11/5/21
+Swap teams command
+Both teams can drive ground vehicles.
+skis for both teams
+Capture the flag mode
+make commands for loading things
+MAKE COMMAND REFERENCE SHEET
+
+Put vanilla guns in 29th extras
+Fixed claymore
+Fixed Molotov

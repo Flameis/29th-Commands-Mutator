@@ -12,8 +12,8 @@
     T26 = class'WinterWar.WWVehicle_T26_EarlyWar_ActualContent';
     T28 = class'WinterWar.WWVehicle_T28_ActualContent';
     HT130 = class'WinterWar.WWVehicle_HT130_ActualContent';
-    ATGun = class'WinterWar.WWVehicle_53K_ActualContent';
     Vickers = class'WinterWar.WWVehicle_Vickers_ActualContent';
+    ATGun = class'WinterWar.WWVehicle_53K_ActualContent';
     Skis = class'WinterWar.WWVehicle_Skis_ActualContent';
     //M113 = class'AmmoCrate.ACVehicle_M113_APC_Content';
 

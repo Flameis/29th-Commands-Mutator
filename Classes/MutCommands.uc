@@ -16,11 +16,11 @@ function PreBeginPlay()
     {
         ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MCPlayerController';
     }
-    else
+    /*else
     {
         ROMI = ROMapInfo(WorldInfo.GetMapInfo());
         ROMI.SouthernRoles[8].Count = 255;
-    }
+    }*/
 
     LoadObjectsInit();
 
