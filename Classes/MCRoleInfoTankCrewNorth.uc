@@ -1,12 +1,6 @@
 //=============================================================================
-// RORoleInfoNorthernGuerilla
-//=============================================================================
-// Default settings for the Vietnamese Guerilla (Rifleman) role.
-//=============================================================================
-// Rising Storm 2: Vietnam Source
-// Copyright (C) 2016 Tripwire Interactive LLC
-// - Sturt "Psycho Ch!cken" Jeffery @ Antimatter Games
-// Edited for the 29th by Reimer, Published by Scovel
+// MCRoleInfoTankCrewNorth
+// Edited for the 29th by Scovel
 //=============================================================================
 class MCRoleInfoTankCrewNorth extends RORoleInfoNorthernInfantry
 	HideDropDown;

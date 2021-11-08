@@ -290,8 +290,18 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case "SWAPTEAMS":
-                SwapTeams();
+                SwapTeams(PC, true);
                 WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping teams");
+                break;
+
+                case "SWAPTEAMSNORTH":
+                SwapTeams(PC, false, `AXIS_TEAM_INDEX);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping north to south");
+                break;
+
+                case "SWAPTEAMSSOUTH":
+                SwapTeams(PC, false, `ALLIES_TEAM_INDEX);
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping south to north");
                 break;
 
                 case "LOADGOM":
@@ -311,14 +321,14 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
     super.Mutate(MutateString, PC);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
+function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid, bool bGiveAll, optional int TeamIndex)
 {
 	local ROInventoryManager        InvManager;
     local ROPawn                    ROP;
 
     NameValid = "True";
 
-    if (GiveAll)
+    if (bGiveAll)
     { 
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
@@ -353,10 +363,10 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
         }
     }    
 
-    else {giveweapon2(PC, WeaponName, NameValid, GiveAll, TeamIndex);}
+    else {giveweapon2(PC, WeaponName, NameValid, bGiveAll, TeamIndex);}
 }
 
-function giveweapon2(PlayerController PC, string WeaponName, out string NameValid, bool GiveAll, optional int TeamIndex)
+function giveweapon2(PlayerController PC, string WeaponName, out string NameValid, bool bGiveAll, optional int TeamIndex)
 {
     local ROInventoryManager        InvManager;
     local ROPawn                    ROP;
@@ -720,11 +730,34 @@ function MCamera(playercontroller PC, optional bool First = false)
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function SwapTeams()
+function SwapTeams(ROPlayerController PC, bool bSwapAll, optional int TeamIndex)
 {
-    foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
+    if (bSwapAll)
     {
+        foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
+        {
         ROPC.SwapTeam();
+        }
+    }
+    else if (TeamIndex == `AXIS_TEAM_INDEX)
+    {
+        foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
+        {
+            if (ROPC.Pawn.GetTeamNum() == `AXIS_TEAM_INDEX)
+            {
+            ROPC.SwapTeam();
+            }
+        }
+    }
+    else if (TeamIndex == `ALLIES_TEAM_INDEX)
+    {
+        foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
+        {
+            if (ROPC.Pawn.GetTeamNum() == `ALLIES_TEAM_INDEX)
+            {
+            ROPC.SwapTeam();
+            }
+        }
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
