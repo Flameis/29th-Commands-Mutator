@@ -303,12 +303,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 
                 case "SWAPTEAMSNORTH":
                 SwapTeams(PC, false, `AXIS_TEAM_INDEX);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping north to south");
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping the north team to south");
                 break;
 
                 case "SWAPTEAMSSOUTH":
                 SwapTeams(PC, false, `ALLIES_TEAM_INDEX);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping south to north");
+                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping the south team to north");
                 break;
 
                 case "LOADGOM":
