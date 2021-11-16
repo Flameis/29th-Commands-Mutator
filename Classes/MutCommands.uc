@@ -149,12 +149,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
             {
                 case "GIVEWEAPON":
                 GiveWeapon(PC, Args[1], NameValid, false, 100);
-                if (NameValid != "False" )
+                if (NameValid == "True" )
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
-                else
+                else if (NameValid == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -163,12 +163,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 
                 case "GIVEWEAPONALL":
                 GiveWeapon(PC, Args[1], NameValid, true);
-                if (NameValid != "False")
+                if (NameValid == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to everyone");
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
-                else
+                else if (NameValid == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -177,12 +177,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 
                 case "GIVEWEAPONNORTH":
                 GiveWeapon(PC, Args[1], NameValid, false, `AXIS_TEAM_INDEX);
-                if (NameValid != "False")
+                if (NameValid == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
                     `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
                 }
-                else
+                else if (NameValid == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -191,12 +191,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 
                 case "GIVEWEAPONSOUTH":
                 GiveWeapon(PC, Args[1], NameValid, false, `ALLIES_TEAM_INDEX);
-                if (NameValid != "False")
+                if (NameValid == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
                     `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
                 }
-                else
+                else if (NameValid == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -229,12 +229,12 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 
                 case "SPAWNVEHICLE":
                 SpawnVehicle(PC, Args[1], NameValid);
-                if (NameValid != "False")
+                if (NameValid == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
-                else
+                else if (NameValid == "False")
                 {
                     `log("[MutCommands] Spawnvehicle failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid vehicle name.");
