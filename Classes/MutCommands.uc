@@ -136,7 +136,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
 {
         local array<string> Args;
         local string        command;
-        local string        NameValid;
+        local string        NVW, NVV;
         local string        PlayerName;
 
 	    ROGI = ROGameInfo(WorldInfo.Game);
@@ -148,13 +148,13 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
             Switch (Command)
             {
                 case "GIVEWEAPON":
-                GiveWeapon(PC, Args[1], NameValid, false, 100);
-                if (NameValid == "True" )
+                GiveWeapon(PC, Args[1], NVW, false, 100);
+                if (NVW == "True" )
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
-                else if (NameValid == "False")
+                else if (NVW == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -162,13 +162,13 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case "GIVEWEAPONALL":
-                GiveWeapon(PC, Args[1], NameValid, true);
-                if (NameValid == "True")
+                GiveWeapon(PC, Args[1], NVW, true);
+                if (NVW == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to everyone");
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
-                else if (NameValid == "False")
+                else if (NVW == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -176,13 +176,13 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case "GIVEWEAPONNORTH":
-                GiveWeapon(PC, Args[1], NameValid, false, `AXIS_TEAM_INDEX);
-                if (NameValid == "True")
+                GiveWeapon(PC, Args[1], NVW, false, `AXIS_TEAM_INDEX);
+                if (NVW == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
                     `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
                 }
-                else if (NameValid == "False")
+                else if (NVW == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -190,13 +190,13 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
 
                 case "GIVEWEAPONSOUTH":
-                GiveWeapon(PC, Args[1], NameValid, false, `ALLIES_TEAM_INDEX);
-                if (NameValid == "True")
+                GiveWeapon(PC, Args[1], NVW, false, `ALLIES_TEAM_INDEX);
+                if (NVW == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
                     `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
                 }
-                else if (NameValid == "False")
+                else if (NVW == "False")
                 {
                     `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid weapon name.");
@@ -228,13 +228,13 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 break;
                 
                 case "SPAWNVEHICLE":
-                SpawnVehicle(PC, Args[1], NameValid);
-                if (NameValid == "True")
+                SpawnVehicle(PC, Args[1], NVV);
+                if (NVV == "True")
                 {
                     WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
                     `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
                 }
-                else if (NameValid == "False")
+                else
                 {
                     `log("[MutCommands] Spawnvehicle failed! "$PlayerName$" tried to spawn a "$Args[1]);
                     PrivateMessage(PC, "Not a valid vehicle name.");
@@ -519,7 +519,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
 	local ROVehicle                 ROHelo;
     local ROPawn                    ROP;
 
-    NameValid = "true";
+    NameValid = "True";
 
     ROP = ROPawn(PC.Pawn);
     // Do ray check and grab actor
