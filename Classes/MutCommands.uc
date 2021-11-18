@@ -80,20 +80,33 @@ function bool bisPC()
 function SetVicTeam()
 {
     local ROVehicle ROV;
+    //local ROVehicleTank ROVT;
     local string    Team;
+    //local ROVWeap_TankTurret TurretGunClass;
 
     foreach DynamicActors(class'ROVehicle', ROV)
     {
         if (ROV.bDriving == true && ROV.Team != ROV.Driver.GetTeamNum())
-        {     
+        {
         ROV.Team = ROV.Driver.GetTeamNum();
         `log("Set "$ROV$" to team "$ROV.Driver.GetTeamNum());
+            
             if (bCTFon)
             {
                 if (ROV.Driver.GetTeamNum() == 0) {Team = "North";}
                 else {Team = "South";}
                 WorldInfo.Game.Broadcast(self, "The "$ROV$" was captured by the "$Team);
             }
+  
+            /*if (ROV.Seats[ROV.GetGunnerSeatIndex()].StoragePawn == none)
+            {
+            ROVT = ROVehicleTank(ROV);
+            TurretGunClass = (ROVT.seats[ROVT.GetGunnerSeatIndex()].ROVWeap_TankTurret(ROVT.seats[ROVT.GetGunnerSeatIndex()].gunclass));
+                if ( TurretGunClass != None )
+                {
+                TurretGunClass.ServerSetMainGunProjIndex(TurretGunClass.MAINGUN_AP_INDEX);
+                }
+            }*/
         }
     }
 }
@@ -518,6 +531,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
     //local class<ROVehicle>          M113;
 	local ROVehicle                 ROHelo;
     local ROPawn                    ROP;
+    //local class<ROVWeap_TankTurret> TurretGunClass;
 
     NameValid = "True";
 

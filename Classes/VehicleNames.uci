@@ -61,26 +61,38 @@
         //Winter War
         case "T20":
 		ROHelo = Spawn(T20, , , EndShot, camrot);
+        /*ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.TryToLoadCannon(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);
+        ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass..ServerSetMainGunProjIndex(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);*/
         break;
 
         case "T26":
 		ROHelo = Spawn(T26, , , EndShot, camrot);
+        /*ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.TryToLoadCannon(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);
+        ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass..ServerSetMainGunProjIndex(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);*/
         break;
 
         case "T28":
 		ROHelo = Spawn(T28, , , EndShot, camrot);
+        /*ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.TryToLoadCannon(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);
+        ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass..ServerSetMainGunProjIndex(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);*/
         break;
 
         case "HT130":
 		ROHelo = Spawn(HT130, , , EndShot, camrot);
+        /*ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.TryToLoadCannon(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);
+        ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass..ServerSetMainGunProjIndex(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);*/
         break;
 
         case "ATGun":
 		ROHelo = Spawn(ATGun, , , EndShot, camrot);
+        /*ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.TryToLoadCannon(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);
+        ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass..ServerSetMainGunProjIndex(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);*/
         break;
 
         case "Vickers":
 		ROHelo = Spawn(VICKERS, , , EndShot, camrot);
+        /*ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.TryToLoadCannon(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);
+        ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass..ServerSetMainGunProjIndex(ROHelo.seats[ROHelo.GetGunnerSeatIndex()].gunclass.MAINGUN_AP_INDEX);*/
         break;
 
         case "Skis":

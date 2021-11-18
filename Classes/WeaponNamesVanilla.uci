@@ -346,3 +346,7 @@
             case "FOUGQUAD":
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_FougQuadContent", false, true);
             break;
+
+            case "ACRPG":
+            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_RPG7_RocketLauncher_Content", false, true);
+            break;
