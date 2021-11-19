@@ -3,10 +3,6 @@ Remake map reference?
 add swap teams to MutRealismMatch
 commands for spawning fire support
 Don't switch desired ammo in tanks
-Make RPG into AP?
-ACWeap_RPG7_RocketLauncher in roles
-
-RPG's can now kill tanks t20 = 2 shots, t26 = 3, t28 = 4
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
 Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
@@ -14,6 +10,13 @@ Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9
 11/20/21
 removed double message when spawning weapons
 removed m14 from US CE
+RPG's can now kill tanks, if you hit in a weak spot it will take less shots.
+53K = 1
+HT130 = 4
+T20 = 3
+T26 = 4
+T28 = 5
+Vickers = 4
 
 11/13/21
 swapnorth and swapsouth commands
