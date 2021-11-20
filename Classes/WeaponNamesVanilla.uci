@@ -218,7 +218,7 @@
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_RPD_LMG_200rd", false, true);
             break;
 
-            case "RPG7":
+            case "VRPG7":
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_RPG7_RocketLauncher_Content", false, true);
             break;
 
@@ -347,6 +347,6 @@
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_FougQuadContent", false, true);
             break;
 
-            case "ACRPG":
+            case "RPG7":
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_RPG7_RocketLauncher_Content", false, true);
             break;

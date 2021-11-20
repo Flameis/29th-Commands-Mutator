@@ -138,6 +138,13 @@ function LoadObjectsInit()
 	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_OH6_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Gunship_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
 }
 
 function PrivateMessage(PlayerController receiver, coerce string msg)
@@ -145,7 +152,7 @@ function PrivateMessage(PlayerController receiver, coerce string msg)
     receiver.TeamMessage(None, msg, '');
 }
 
-function Mutate(string MutateString, PlayerController PC) //no prefixes, also call super function!
+singular function Mutate(string MutateString, PlayerController PC) //no prefixes, also call super function!
 {
         local array<string> Args;
         local string        command;
@@ -308,22 +315,11 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 MCamera(PC, true);
                 break;
 
-                case "SWAPTEAMS":
-                SwapTeams(PC, true);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping teams");
+                case "CAPTURETHEFLAG":
+                CTFToggle();
                 break;
-
-                case "SWAPNORTH":
-                SwapTeams(PC, false, `AXIS_TEAM_INDEX);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping the north team to the south");
-                break;
-
-                case "SWAPSOUTH":
-                SwapTeams(PC, false, `ALLIES_TEAM_INDEX);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Swapping the south team to the north");
-                break;
-
-                case "LOADGOM":
+                
+                /*case "LOADGOM":
                 LoadGOMObjects();
                 WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded GOM");
                 break;
@@ -331,11 +327,7 @@ function Mutate(string MutateString, PlayerController PC) //no prefixes, also ca
                 case "LOADWW":
                 LoadWinterWarObjects();
                 WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded Winter War");
-                break;
-
-                case "CAPTURETHEFLAG":
-                CTFToggle();
-                break;
+                break;*/
             }
     super.Mutate(MutateString, PC);
 }
@@ -750,40 +742,7 @@ function MCamera(playercontroller PC, optional bool First = false)
 	}
 }
 
-function SwapTeams(PlayerController PC, bool bSwapAll, optional int TeamIndex)
-{
-    PC = ROPlayerController(PC);
-    
-    if (bSwapAll)
-    {
-        foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
-        {
-        ROPC.SwapTeam();
-        }
-    }
-    else if (TeamIndex == `AXIS_TEAM_INDEX)
-    {
-        foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
-        {
-            if (ROPC.Pawn.GetTeamNum() == `AXIS_TEAM_INDEX)
-            {
-            ROPC.SwapTeam();
-            }
-        }
-    }
-    else if (TeamIndex == `ALLIES_TEAM_INDEX)
-    {
-        foreach WorldInfo.allactors(class'ROPlayerController', ROPC)
-        {
-            if (ROPC.Pawn.GetTeamNum() == `ALLIES_TEAM_INDEX)
-            {
-            ROPC.SwapTeam();
-            }
-        }
-    }
-}
-
-function LoadGOMObjects()
+/*function LoadGOMObjects()
 {
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
 }
@@ -800,7 +759,7 @@ function LoadWinterWarObjects()
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
-}
+}*/
 
 function CTFToggle()
 {

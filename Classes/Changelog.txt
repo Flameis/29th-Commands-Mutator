@@ -1,13 +1,16 @@
 Fix highway 14 29th edit
 Remake map reference?
-add swap teams to MutRealismMatch
 commands for spawning fire support
 Don't switch desired ammo in tanks
+change IsMutThere() to a for loop?
+
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
 Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
 
 11/20/21
+add swap teams to MutRealismMatch
+Change name on command and save them in config
 removed double message when spawning weapons
 removed m14 from US CE
 RPG's can now kill tanks, if you hit in a weak spot it will take less shots.
