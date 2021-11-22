@@ -218,7 +218,7 @@
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_RPD_LMG_200rd", false, true);
             break;
 
-            case "VRPG7":
+            case "VANILLARPG7":
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_RPG7_RocketLauncher_Content", false, true);
             break;
 

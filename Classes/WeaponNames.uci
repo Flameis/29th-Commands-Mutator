@@ -102,7 +102,7 @@
             
             break;
 
-            case "WP":
+            case "M34WP":
             
             break;
 
@@ -218,7 +218,7 @@
             
             break;
 
-            case "VRPG7":
+            case "VANILLARPG7":
             
             break;
 
@@ -333,87 +333,87 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Winter War
 
-            case "ATMINE":
+            case "WWATMINE":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_AntiTankMine_ActualContent", false, true);
 
             break;
 
-            case "AVS36":
+            case "WWAVS36":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_AVS36_ActualContent", false, true);
 
             break;
 
-            case "F1GRENADE":
+            case "WWF1GRENADE":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_F1Grenade_ActualContent", false, true);
 
             break;
 
-            case "KASAPANOS":
+            case "WWKASAPANOS":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_Kasapanos_FactoryIssue_ActualContent", false, true);
 
             break;
 
-            case "KASAPANOS2":
+            case "WWKASAPANOSI":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_Kasapanos_Improvised_ActualContent", false, true);
 
             break;
 
-            case "KP31":
+            case "WWKP31":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_KP31_ActualContent", false, true);
 
             break;
 
-            case "L35":
+            case "WWL35":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_L35_ActualContent", false, true);
 
             break;
 
-            case "LAHTI":
+            case "WWLAHTI":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_LahtiSaloranta_ActualContent", false, true);
 
             break;
 
-            case "LUGER":
+            case "WWLUGER":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_Luger_ActualContent", false, true);
 
             break;
 
-            case "M20":
+            case "WWM20":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_M20_ActualContent", false, true);
 
             break;
 
-            case "M32":
+            case "WWM32":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_M32Grenade_ActualContent", false, true);
 
             break;
 
-            case "MN27":
+            case "WWMN27":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_MN27_ActualContent", false, true);
 
             break;
 
-            case "MN38":
+            case "WWMN38":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_MN38_ActualContent", false, true);
 
             break;
 
-            case "MN91":
+            case "WWMN91":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_MN91_ActualContent", false, true);
 
             break;
 
-            case "MN9130":
+            case "WWMN9130":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_MN9130_ActualContent", false, true);
 
             break;
 
-            case "MN9130D":
+            case "WWMN9130D":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_MN9130_Dyakonov_ActualContent", false, true);
 
             break;
 
-            case "MN9130SCOPED":
+            case "WWMN9130SCOPED":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_MN9130_Scoped_ActualContent", false, true);
 
             break;
@@ -423,12 +423,12 @@
 
             break;
 
-            case "NAGANT":
+            case "WWNAGANT":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_NagantRevolver_ActualContent", false, true);
 
             break;
 
-            case "PPD34":
+            case "WWPPD34":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_PPD34_ActualContent", false, true);
 
             break;
@@ -438,7 +438,7 @@
 
             break;
 
-            case "RGD33":
+            case "WWRGD33":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_RGD33_ActualContent", false, true);
 
             break;
@@ -448,12 +448,12 @@
 
             break;
 
-            case "SKIS":
+            case "WWSKIS":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_Skis_ActualContent", false, true);
 
             break;
 
-            case "SVT38":
+            case "WWSVT38":
             InvManager.LoadAndCreateInventory("WinterWar.WWWeapon_SVT38_ActualContent", false, true);
 
             break;
@@ -464,7 +464,7 @@
             break;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// GOM 4
 
-            case "38BODYGUARD":
+            /*case "38BODYGUARD":
             InvManager.LoadAndCreateInventory("GOM4.GOMWeapon_38Bodyguard_ActualContent", false, true);
 
             break;
@@ -692,10 +692,10 @@
             case "VCGRENADE":
             InvManager.LoadAndCreateInventory("GOM4.GOMWeapon_VCGrenade_ActualContent", false, true);
 
-            break;
+            break;*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// GOM 3
 
-            /*case "RPG2":
+            case "RPG2":
             InvManager.LoadAndCreateInventory("GOM3.GOMWeapon_RPG2_ActualContent", false, true);
 
             break;
@@ -733,7 +733,7 @@
             case "GOMCARBINE":
             InvManager.LoadAndCreateInventory("GOM3.GOMWeapon_M1_Carbine_ActualContent", false, true);
 
-            break;*/
+            break;
             
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Testing            
 

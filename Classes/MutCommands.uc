@@ -31,8 +31,6 @@ function NotifyLogin(Controller NewPlayer)
 {
     MCPC = MCPlayerController(NewPlayer);
 
-    //ClientLoadObjects(NewPlayer);
-
     if (MCPC == None)
     {
         `log("Error replacing roles");
@@ -45,12 +43,6 @@ function NotifyLogin(Controller NewPlayer)
 
     super.NotifyLogin(NewPlayer);
 }
-
-/*function NotifyRoundEnd(byte WinningTeamIndex)
-{
-    RemoveVolumes();
-    super.NotifyRoundEnd(WinningTeamIndex);
-}*/
 
 auto state StartUp
 {
@@ -317,6 +309,26 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
 
                 case "CAPTURETHEFLAG":
                 CTFToggle();
+                break;
+
+                case "CALLNAPALM":
+                SpawnFireSupport(PC, 0);
+                break;
+
+                case "CALLCANBERRA":
+                SpawnFireSupport(PC, 1);
+                break;
+
+                case "CALLAC47":
+                SpawnFireSupport(PC, 2);
+                break;
+
+                case "CALLAA":
+                SpawnFireSupport(PC, 3);
+                break;
+
+                case "CALLARTY":
+                SpawnFireSupport(PC, 4);
                 break;
                 
                 /*case "LOADGOM":
@@ -775,18 +787,261 @@ function CTFToggle()
     }
 }
 
-
-
-
-
-
-
-
-
-
-function SpawnObject(PlayerController PC, string S)
+function SpawnFireSupport(PlayerController PC, int SupportIndex)
 {
-    //For spawning barricades maybe?
+    switch (SupportIndex)
+    {
+        case 0:
+        DoTestNapalmStrike(PC);
+        break;
+
+        case 1:
+        DoTestCanberraStrike(PC);
+        break;
+
+        case 2:
+        DoGunshipTestOrbit(PC);
+        break;
+
+        case 3:
+        ServerTestAntiAir(PC);
+        break;
+
+        case 4:
+        DoTestArtyStrike(PC);
+        break;
+
+        default:
+        `log ("SpawnFireSupport failed");
+        break;
+    }
+}
+
+reliable private server function DoTestNapalmStrike(PlayerController PC, optional bool bLockX, optional bool bLockY)
+{
+	local vector TargetLocation, SpawnLocation;
+	local class<RONapalmStrikeAircraft> AircraftClass;
+	local RONapalmStrikeAircraft Aircraft;
+	local ROTeamInfo ROTI;
+
+	if ( ROPlayerReplicationInfo(PC.PlayerReplicationInfo) == none ||
+		 ROPlayerReplicationInfo(PC.PlayerReplicationInfo).RoleInfo == none ||
+		 PC.Pawn == none )
+	{
+		return;
+	}
+    
+    ROPC = ROPlayerController(PC);
+	ROTI = ROTeamInfo(PC.PlayerReplicationInfo.Team);
+
+	if ( ROTI != none )
+	{
+		ROTI.ArtyStrikeLocation = ROTI.SavedArtilleryCoords;
+	}
+
+	if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+		TargetLocation = ROTI.ArtyStrikeLocation;
+	else
+		TargetLocation = PC.Pawn.Location;
+
+	ROMI = ROMapInfo(WorldInfo.GetMapInfo());
+
+	if( ROMI != none && ROMI.SouthernForce == SFOR_ARVN )
+		AircraftClass = class'RONapalmStrikeAircraftARVN';
+	else
+		AircraftClass = class'RONapalmStrikeAircraft';
+
+	SpawnLocation = ROPC.GetBestAircraftSpawnLoc(TargetLocation, ROMapInfo(WorldInfo.GetMapInfo()).NapalmStrikeHeightOffset, AircraftClass);
+	TargetLocation.Z = SpawnLocation.Z;
+
+	Aircraft = Spawn(AircraftClass,self,, SpawnLocation, rotator(TargetLocation - SpawnLocation));
+
+	if ( Aircraft == none )
+	{
+		`log("Error Spawning Support Aircraft");
+	}
+	else
+	{
+		if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+			Aircraft.TargetLocation = ROTI.ArtyStrikeLocation;
+		else
+			Aircraft.TargetLocation = PC.Pawn.Location;
+
+		Aircraft.SetDropPoint();
+	}
+
+	ROPC.KillsWithCurrentNapalm = 0; // Reset Napalm Kills as We call it in!!!
+}
+
+reliable private server function DoTestCanberraStrike(PlayerController PC, optional vector2D StrikeDir)
+{
+	local vector TargetLocation, SpawnLocation;
+	local ROCarpetBomberAircraft Aircraft;
+	local ROTeamInfo ROTI;
+
+	if ( ROPlayerReplicationInfo(PC.PlayerReplicationInfo) == none ||
+		 ROPlayerReplicationInfo(PC.PlayerReplicationInfo).RoleInfo == none ||
+		 PC.Pawn == none )
+	{
+		return;
+	}
+
+    ROPC = ROPlayerController(PC);
+	ROTI = ROTeamInfo(PC.PlayerReplicationInfo.Team);
+
+	if ( ROTI != none )
+	{
+		ROTI.ArtyStrikeLocation = ROTI.SavedArtilleryCoords;
+	}
+
+	if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+		TargetLocation = ROTI.ArtyStrikeLocation;
+	else
+		TargetLocation = PC.Pawn.Location;
+
+	SpawnLocation = ROPC.GetSupportAircraftSpawnLoc(TargetLocation, class'ROCarpetBomberAircraft', StrikeDir);
+
+	if( ROMapInfo(WorldInfo.GetMapInfo()).bUseNapalmHeightOffsetForAll )
+		SpawnLocation.Z += ROMapInfo(WorldInfo.GetMapInfo()).NapalmStrikeHeightOffset;
+	else
+		SpawnLocation.Z += ROMapInfo(WorldInfo.GetMapInfo()).CarpetBomberHeightOffset;
+
+	TargetLocation.Z = SpawnLocation.Z;
+
+	Aircraft = Spawn(class'ROCarpetBomberAircraft',self,, SpawnLocation, rotator(TargetLocation - SpawnLocation));
+
+	if ( Aircraft == none )
+	{
+		`log("Error Spawning Support Aircraft");
+	}
+	else
+	{
+		if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+			Aircraft.TargetLocation = ROTI.ArtyStrikeLocation;
+		else
+			Aircraft.TargetLocation = PC.Pawn.Location;
+
+		Aircraft.SetDropPoint();
+		Aircraft.SetOffset(1);
+	}
+
+	Aircraft = Spawn(class'ROCarpetBomberAircraft',self,, SpawnLocation, rotator(TargetLocation - SpawnLocation));
+
+	if ( Aircraft == none )
+	{
+		`log("Error Spawning Support Aircraft");
+	}
+	else
+	{
+		if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+			Aircraft.TargetLocation = ROTI.ArtyStrikeLocation;
+		else
+			Aircraft.TargetLocation = PC.Pawn.Location;
+
+		Aircraft.InboundDelay += 1;
+		Aircraft.SetDropPoint();
+		Aircraft.SetOffset(2);
+	}
+}
+
+reliable private server function DoGunshipTestOrbit(PlayerController PC)
+{
+	local vector TargetLocation, SpawnLocation;
+	local ROGunshipAircraft Aircraft;
+	local ROTeamInfo ROTI;
+
+	if ( ROPlayerReplicationInfo(PC.PlayerReplicationInfo) == none ||
+		 ROPlayerReplicationInfo(PC.PlayerReplicationInfo).RoleInfo == none ||
+		 PC.Pawn == none )
+	{
+		return;
+	}
+
+    ROPC = ROPlayerController(PC);
+	ROTI = ROTeamInfo(PC.PlayerReplicationInfo.Team);
+
+	if ( ROTI != none )
+	{
+		ROTI.ArtyStrikeLocation = ROTI.SavedArtilleryCoords;
+	}
+
+	if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+		TargetLocation = ROTI.ArtyStrikeLocation;
+	else
+		TargetLocation = PC.Pawn.Location;
+
+	SpawnLocation = ROPC.GetBestAircraftSpawnLoc(TargetLocation, class'ROGunshipAircraft'.default.Altitude, class'ROGunshipAircraft');
+	TargetLocation.Z = SpawnLocation.Z;
+
+	Aircraft = Spawn(class'ROGunshipAircraft',self,, SpawnLocation, rotator(TargetLocation - SpawnLocation));
+
+	if ( Aircraft == none )
+	{
+		`log("Error Spawning Support Aircraft");
+	}
+	else
+	{
+		if( ROTI.ArtyStrikeLocation != vect(-999999.0,-999999.0,-999999.0) )
+			Aircraft.TargetLocation = ROTI.ArtyStrikeLocation;
+		else
+			Aircraft.TargetLocation = PC.Pawn.Location;
+
+		Aircraft.CalculateOrbit();
+	}
+}
+
+reliable private server function ServerTestAntiAir(PlayerController PC)
+{
+	if ( ROPlayerReplicationInfo(PC.PlayerReplicationInfo) == none ||
+		 ROPlayerReplicationInfo(PC.PlayerReplicationInfo).RoleInfo == none ||
+		 PC.Pawn == none )
+	{
+		return;
+	}
+    ROPC = ROPlayerController(PC);
+
+	Spawn(class'ROSAMSpawner', self,, ROPC.GetSAMSpawnLoc());
+}
+
+private function DoTestArtyStrike(PlayerController PC)
+{
+	local vector SpawnLocation, MyGravity;
+	local ROArtillerySpawner Spawner;
+	local Controller C;
+	local ROTeamInfo ROTI;
+
+	ROTI = ROTeamInfo(PC.PlayerReplicationInfo.Team);
+
+	MyGravity.X = 0.0;
+	MyGravity.Y = 0.0;
+	MyGravity.Z = PhysicsVolume.GetGravityZ();
+
+	if ( ROTI != none )
+	{
+		ROTI.ArtyStrikeLocation = ROTI.SavedArtilleryCoords;
+	}
+
+	SpawnLocation = ROTI.SavedArtilleryCoords;
+	SpawnLocation.Z = ROGameReplicationInfo(WorldInfo.GRI).ArtySpawn.Z;
+
+	Spawner = Spawn(class'ROArtillerySpawner',self,, SpawnLocation, rotator(MyGravity));
+
+	if ( Spawner == none )
+	{
+		`log("Error Spawning Artillery Shell Spawner ");
+	}
+	else
+	{
+		Spawner.OriginalArtyLocation = ROTI.SavedArtilleryCoords;
+	}
+
+	foreach WorldInfo.AllControllers(class'Controller', C)
+	{
+  		if ( PlayerController(C) != none && PlayerController(C).GetTeamNum() == GetTeamNum() )
+  		{
+  			PlayerController(C).ReceiveLocalizedMessage(class'ROLocalMessageGameRedAlert', RORAMSG_ArtilleryStrike);
+  		}
+  	}
 }
 
 defaultproperties
