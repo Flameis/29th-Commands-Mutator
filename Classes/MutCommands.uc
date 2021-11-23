@@ -577,11 +577,14 @@ function SpawnBarricade(PlayerController PC, string ObjectName)
 {
     local vector                        CamLoc, StartShot, EndShot, X, Y, Z, Hitnormal, BelowVector;
 	local rotator                       CamRot;
-    local class<ACDestructibles>        SANDBAGS;
-    local class<ACDestructibles>        SKYRAIDER;
+    local class<ACDestructible>        SANDBAGS, SKYRAIDER, PHANTOM, BIRDDOG, CANBERRA, HOWITZER;
 
     SANDBAGS = class'ACDestructibleSandbag';
     SKYRAIDER = class'ACDestructibleSkyraider';
+    PHANTOM = class'ACDestructiblePhantom';
+    BIRDDOG = class'ACDestructibleBirddog';
+    CANBERRA = class'ACDestructibleCanberra';
+    HOWITZER = class'ACDestructibleHowitzer';
 
     PC.GetPlayerViewPoint(CamLoc, CamRot);
     GetAxes(CamRot, X, Y, Z );
@@ -606,14 +609,30 @@ function SpawnBarricade(PlayerController PC, string ObjectName)
         case "SKYRAIDER":
         spawn(SKYRAIDER,,, EndShot, CamRot);
         break;
+
+        case "PHANTOM":
+        spawn(PHANTOM,,, EndShot, CamRot);
+        break;
+
+        case "BIRDDOG":
+        spawn(BIRDDOG,,, EndShot, CamRot);
+        break;
+
+        case "CANBERRA":
+        spawn(CANBERRA,,, EndShot, CamRot);
+        break;
+
+        case "HOWITZER":
+        spawn(HOWITZER,,, EndShot, CamRot);
+        break;
     }
 }
 
 function ClearBarricades()
 {
-    local ACDestructibles ACD;
+    local ACDestructible ACD;
 
-    foreach WorldInfo.AllActors(class'AmmoCrate.ACDestructibles', ACD)
+    foreach WorldInfo.AllActors(class'AmmoCrate.ACDestructible', ACD)
     {
         ACD.Destroy();
     }
