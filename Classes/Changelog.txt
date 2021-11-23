@@ -3,6 +3,8 @@ Remake map reference?
 Don't switch desired ammo in tanks
 Remove ROVNA in MutRealismMatch - done
 Name exists not working on server?
+make placeable barricades - kinda done
+make an objective anywhere
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
 Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing

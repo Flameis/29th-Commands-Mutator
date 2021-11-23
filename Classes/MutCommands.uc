@@ -159,6 +159,14 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
         
             Switch (Command)
             {
+                case "SPAWNBARRICADE":
+                SpawnBarricade(PC, Args[1]);
+                break;
+
+                case "CLEARBARRICADES":
+                ClearBarricades();
+                break;
+
                 case "GIVEWEAPON":
                 GiveWeapon(PC, Args[1], NVW, false, 100);
                 if (NVW == "True" )
@@ -544,7 +552,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
 	PC.GetPlayerViewPoint(CamLoc, CamRot);
 	GetAxes(CamRot, X, Y, Z );
 	StartShot   = CamLoc;
-	EndShot     = StartShot + (450.0 * X) + (300 * Z);
+	EndShot     = StartShot + (400.0 * X) + (200 * Z);
 
 	`include(MutCommands\Classes\VehicleNames.uci)
 
@@ -563,6 +571,52 @@ function ClearVehicles()
             ROV.ShutDown();
 			ROV.Destroy();
 	}
+}
+
+function SpawnBarricade(PlayerController PC, string ObjectName)
+{
+    local vector                        CamLoc, StartShot, EndShot, X, Y, Z, Hitnormal, BelowVector;
+	local rotator                       CamRot;
+    local class<ACDestructibles>        SANDBAGS;
+    local class<ACDestructibles>        SKYRAIDER;
+
+    SANDBAGS = class'ACDestructibleSandbag';
+    SKYRAIDER = class'ACDestructibleSkyraider';
+
+    PC.GetPlayerViewPoint(CamLoc, CamRot);
+    GetAxes(CamRot, X, Y, Z );
+
+    StartShot       = CamLoc;
+    EndShot         = StartShot + (100.0 * X) + (-50 * Y);   
+    Camrot.Roll     = 0;
+    CamRot.Pitch    = 0;
+    Camrot.Yaw      = Camrot.Yaw + (90 * DegToUnrRot);
+    //EndShot.Z       = PC.Pawn.Location.Z - 50;
+
+    BelowVector = EndShot;
+    BelowVector.Z = -7000;
+
+    trace(EndShot, Hitnormal, BelowVector, EndShot, true);
+    switch (ObjectName)
+    {
+        case "SANDBAGS":
+        spawn(SANDBAGS,,, EndShot, CamRot);
+        break;
+
+        case "SKYRAIDER":
+        spawn(SKYRAIDER,,, EndShot, CamRot);
+        break;
+    }
+}
+
+function ClearBarricades()
+{
+    local ACDestructibles ACD;
+
+    foreach WorldInfo.AllActors(class'AmmoCrate.ACDestructibles', ACD)
+    {
+        ACD.Destroy();
+    }
 }
 
 function SetJumpZ(PlayerController PC, float F )
