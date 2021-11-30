@@ -159,14 +159,6 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
         
             Switch (Command)
             {
-                case "SPAWNBARRICADE":
-                SpawnBarricade(PC, Args[1]);
-                break;
-
-                case "CLEARBARRICADES":
-                ClearBarricades();
-                break;
-
                 case "GIVEWEAPON":
                 GiveWeapon(PC, Args[1], NVW, false, 100);
                 if (NVW == "True" )
@@ -571,71 +563,6 @@ function ClearVehicles()
             ROV.ShutDown();
 			ROV.Destroy();
 	}
-}
-
-function SpawnBarricade(PlayerController PC, string ObjectName)
-{
-    local vector                        CamLoc, StartShot, EndShot, X, Y, Z, Hitnormal, BelowVector;
-	local rotator                       CamRot;
-    local class<ACDestructible>        SANDBAGS, SKYRAIDER, PHANTOM, BIRDDOG, CANBERRA, HOWITZER;
-
-    SANDBAGS = class'ACDestructibleSandbag';
-    SKYRAIDER = class'ACDestructibleSkyraider';
-    PHANTOM = class'ACDestructiblePhantom';
-    BIRDDOG = class'ACDestructibleBirddog';
-    CANBERRA = class'ACDestructibleCanberra';
-    HOWITZER = class'ACDestructibleHowitzer';
-
-    PC.GetPlayerViewPoint(CamLoc, CamRot);
-    GetAxes(CamRot, X, Y, Z );
-
-    StartShot       = CamLoc;
-    EndShot         = StartShot + (100.0 * X) + (-50 * Y);   
-    Camrot.Roll     = 0;
-    CamRot.Pitch    = 0;
-    Camrot.Yaw      = Camrot.Yaw + (90 * DegToUnrRot);
-    //EndShot.Z       = PC.Pawn.Location.Z - 50;
-
-    BelowVector = EndShot;
-    BelowVector.Z = -7000;
-
-    trace(EndShot, Hitnormal, BelowVector, EndShot, true);
-    switch (ObjectName)
-    {
-        case "SANDBAGS":
-        spawn(SANDBAGS,,, EndShot, CamRot);
-        break;
-
-        case "SKYRAIDER":
-        spawn(SKYRAIDER,,, EndShot, CamRot);
-        break;
-
-        case "PHANTOM":
-        spawn(PHANTOM,,, EndShot, CamRot);
-        break;
-
-        case "BIRDDOG":
-        spawn(BIRDDOG,,, EndShot, CamRot);
-        break;
-
-        case "CANBERRA":
-        spawn(CANBERRA,,, EndShot, CamRot);
-        break;
-
-        case "HOWITZER":
-        spawn(HOWITZER,,, EndShot, CamRot);
-        break;
-    }
-}
-
-function ClearBarricades()
-{
-    local ACDestructible ACD;
-
-    foreach WorldInfo.AllActors(class'AmmoCrate.ACDestructible', ACD)
-    {
-        ACD.Destroy();
-    }
 }
 
 function SetJumpZ(PlayerController PC, float F )
