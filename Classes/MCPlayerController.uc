@@ -49,14 +49,6 @@ simulated function ReplaceRoles()
     {
         `log ("Replacing Roles");
 
-        SouthRoleCount3.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
-		SouthRoleCount3.Count = 255;
-        ROMI.SouthernRoles.additem(SouthRoleCount3);
-
-        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
-		NorthRoleCount.Count = 255;
-        ROMI.NorthernRoles.additem(NorthRoleCount);
-
         switch (ROMI.SouthernForce)
         {
             case SFOR_USArmy:
@@ -124,6 +116,14 @@ simulated function ReplaceRoles()
                 ROMI.NorthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderNorth';
             break;
         }
+
+        SouthRoleCount3.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
+		SouthRoleCount3.Count = 255;
+        ROMI.SouthernRoles.additem(SouthRoleCount3);
+
+        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
+		NorthRoleCount.Count = 255;
+        ROMI.NorthernRoles.additem(NorthRoleCount);
     }
 }
 

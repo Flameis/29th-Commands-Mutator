@@ -1,16 +1,25 @@
 Fix highway 14 29th edit
-Remake map reference?
+fix performance issues on maps
 Don't switch desired ammo in tanks
-Remove ROVNA in MutRealismMatch - done
 Name exists not working on server?
 make placeable barricades - kinda done
 make an objective anywhere
-vault onto spawned barricades. - done
 spawn debris on world geometry instead of air
 fix shadows
 fix preview mesh
 make prefab system
-unlimit how far away you can place barricades
+unlimit how far away you can place barricades - done
+Add more content references?
+Remove map boundaries maybe?
+Remove team switch timer
+Spawn GAM vehicles
+south has 255 commanders?
+add Whois command to MutRealismMatch
+
+
+
+Remove ROVNA in MutRealismMatch - done
+vault onto spawned barricades. - done
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
 Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
