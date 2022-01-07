@@ -1,32 +1,36 @@
+make an objective anywhere
+Add more content references?
+Stop freeze when placing destructible
 Fix highway 14 29th edit
 fix performance issues on maps
+Spawn GAM vehicles
 Don't switch desired ammo in tanks
-Name exists not working on server?
-make placeable barricades - kinda done
-make an objective anywhere
-spawn debris on world geometry instead of air
-fix shadows
-fix preview mesh
-make prefab system
-unlimit how far away you can place barricades - done
-Add more content references?
 Remove map boundaries maybe?
 Remove team switch timer
-Spawn GAM vehicles
-south has 255 commanders?
-add Whois command to MutRealismMatch
+eventually a system for destroying individual pieces of prefab
 
 
-
-Remove ROVNA in MutRealismMatch - done
+add spawnvehicle to 29th Extras - done
+Name exists not working on server? - fixed?
+south has 255 commanders? - fixed?
+Use debug spheres for prefabs - done
+make prefab system - done
+Remove No Artillery Volumes in MutRealismMatch - done
 vault onto spawned barricades. - done
+unlimit how far away you can place barricades - done
+Fix tank damage. - done?
+make placeable barricades - done
+fix preview mesh - done
+add Whois command to MutRealismMatch - done
+Change name on command and save them in config - done
+add swap teams to MutRealismMatch - done
+
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
 Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
 
+
 11/20/21
-add swap teams to MutRealismMatch
-Change name on command and save them in config
 removed double message when spawning weapons
 removed m14 from US CE
 RPG's can now kill tanks, if you hit in a weak spot it will take less shots.

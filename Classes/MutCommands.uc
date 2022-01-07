@@ -78,7 +78,7 @@ function SetVicTeam()
 
     foreach DynamicActors(class'ROVehicle', ROV)
     {
-        if (ROV.bDriving == true && ROV.Team != ROV.Driver.GetTeamNum())
+        if (ROV.bDriving == true && ROV.Team != ROV.Driver.GetTeamNum() && !ROV.bDeadVehicle)
         {
         ROV.Team = ROV.Driver.GetTeamNum();
         `log("Set "$ROV$" to team "$ROV.Driver.GetTeamNum());
@@ -113,7 +113,7 @@ function RemoveVolumes()
         {
             if (ROVNA.bEnabled == true) {ROVNA.SetEnabled(False); CountDisabled++;}
         }
-        `log ("Set "$CountDisabled$" ROVNA disabled");
+        //`log ("Set "$CountDisabled$" ROVNA disabled");
     }
 }
 
@@ -136,7 +136,7 @@ function LoadObjectsInit()
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
+    //ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
 }
 
 function PrivateMessage(PlayerController receiver, coerce string msg)
@@ -520,7 +520,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
     local class<ROVehicle>          Loach;
     local class<ROVehicle>          Huey;
     local class<ROVehicle>          Bushranger;
-    local class<ROVehicle>          M113ACAV;
+    //local class<ROVehicle>          M113ACAV;
     local class<ROVehicle>          T20;
     local class<ROVehicle>          T26;
     local class<ROVehicle>          T28;

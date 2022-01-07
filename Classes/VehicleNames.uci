@@ -2,7 +2,7 @@
     Loach = class'ROGameContent.ROHeli_OH6_Content';
     Huey = class'ROGameContent.ROHeli_UH1H_Content';
     Bushranger = class'ROGameContent.ROHeli_UH1H_Gunship_Content';
-    M113ACAV = class'GOM3.GOMVehicle_M113_ACAV_ActualContent';
+    //M113ACAV = class'GOM3.GOMVehicle_M113_ACAV_ActualContent';
     //M113ACAV = class'GOM4.GOMVehicle_M113_ACAV_ActualContent';
     //MUTT = class'GOM4.GOMVehicle_M151_MUTT_US';
     //T34 = class'GOM4.GOMVehicle_T34_ActualContent';
@@ -37,9 +37,9 @@
         break;
 
         //GOM 4
-        case "M113ACAV":
-        ROHelo = Spawn(M113ACAV, , , EndShot, camrot);
-        break;
+        //case "M113ACAV":
+        //ROHelo = Spawn(M113ACAV, , , EndShot, camrot);
+        //break;
 
         /*case "MUTT":
 		ROHelo = Spawn(MUTT, , , EndShot, camrot);
