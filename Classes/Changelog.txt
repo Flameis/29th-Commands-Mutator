@@ -1,3 +1,5 @@
+Barricades disappearing?
+Do saluting
 make an objective anywhere
 Add more content references?
 Stop freeze when placing destructible
@@ -10,24 +12,46 @@ Remove team switch timer
 eventually a system for destroying individual pieces of prefab
 
 
-add spawnvehicle to 29th Extras - done
-Name exists not working on server? - fixed?
-south has 255 commanders? - fixed?
+Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
+Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
+
+
+SANDBAGS
+SKYRAIDER
+PHANTOM
+BIRDDOG
+CANBERRA
+HOWITZER
+FRENCHBUNKER
+BUSH
+PREFAB
+
+1/8/22
+Added spawnvehicle to 29th Extras - done
+Name exists not working on server - fixed
 Use debug spheres for prefabs - done
 make prefab system - done
-Remove No Artillery Volumes in MutRealismMatch - done
 vault onto spawned barricades. - done
 unlimit how far away you can place barricades - done
-Fix tank damage. - done?
 make placeable barricades - done
 fix preview mesh - done
+Fix tank damage. - done?
+skyraider, phantom broke - fixed
+canberra collison broke - mesh problem
+make clearbarricade in line of sight - done
+unlimit maximum angle placing - done
+Add more logging/Notifications - done
+Clean up code (CIWS, delete unused files, etc) - done
+
+
+Removed GOM3 from the mutators due to it not being on the workshop anymore
+south has 255 commanders - fixed
+
+
+Remove No Artillery Volumes in MutRealismMatch - done
 add Whois command to MutRealismMatch - done
 Change name on command and save them in config - done
 add swap teams to MutRealismMatch - done
-
-
-Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
-Reference Sheet https://docs.google.com/document/d/1vN9QAimD5kqdo2kK-lQlqbvPGOT9G4vYG0dM0KMpLpU/edit?usp=sharing
 
 
 11/20/21
@@ -42,10 +66,12 @@ T28 = 5
 Vickers = 4
 commands for spawning fire support
 
+
 11/13/21
 swapnorth and swapsouth commands
 
 fixed north commander loadout
+
 
 11/5/21
 Swap teams command

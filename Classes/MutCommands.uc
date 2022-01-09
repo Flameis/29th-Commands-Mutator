@@ -331,7 +331,7 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
                 SpawnFireSupport(PC, 4);
                 break;
                 
-                /*case "LOADGOM":
+                /* case "LOADGOM":
                 LoadGOMObjects();
                 WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded GOM");
                 break;
@@ -339,7 +339,7 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
                 case "LOADWW":
                 LoadWinterWarObjects();
                 WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded Winter War");
-                break;*/
+                break; */
             }
     super.Mutate(MutateString, PC);
 }
@@ -574,7 +574,7 @@ function SetJumpZ(PlayerController PC, float F )
         else
         {
             PC.Pawn.JumpZ = 1;
-            `log("Error");
+            // `log("Error");
         }
 }
 
@@ -587,7 +587,7 @@ function SetGravity(PlayerController PC, float F )
         else
         {
             WorldInfo.WorldGravityZ = WorldInfo.Default.WorldGravityZ;
-            `log("Error");
+            // `log("Error");
         }
 }
 
@@ -602,7 +602,7 @@ function SetSpeed(PlayerController PC, float F )
     {
         PC.Pawn.GroundSpeed = PC.Pawn.Default.GroundSpeed;
 	    PC.Pawn.WaterSpeed = PC.Pawn.Default.WaterSpeed;
-        `log("Error");
+        // `log("Error");
     }
 }
 
@@ -619,7 +619,7 @@ function ChangeSize(PlayerController PC, float F )
         PC.Pawn.CylinderComponent.SetCylinderSize(PC.Pawn.Default.CylinderComponent.CollisionRadius, PC.Pawn.Default.CylinderComponent.CollisionHeight);
 	    PC.Pawn.SetDrawScale(1);
 	    PC.Pawn.SetLocation(PC.Pawn.Location);
-        `log("Error");
+        // `log("Error");
     }
 }
 
