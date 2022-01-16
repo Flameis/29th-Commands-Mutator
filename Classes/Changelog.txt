@@ -1,4 +1,5 @@
-Barricades disappearing?
+MutRealismMatch seperate namechanger into another file
+Make automatic MAS grenade launcher
 Do saluting
 make an objective anywhere
 Add more content references?
@@ -25,6 +26,9 @@ HOWITZER
 FRENCHBUNKER
 BUSH
 PREFAB
+
+1/15/22
+Fixed Barricades disappearing
 
 1/8/22
 Added spawnvehicle to 29th Extras - done
