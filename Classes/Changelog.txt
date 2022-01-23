@@ -1,10 +1,12 @@
-Name Changer doesn't have time to get default.
+Name Changer doesn't have time to get default. - fixed?
 MutRealismMatch seperate namechanger into another file
+Make cheat managers.
 Make automatic MAS grenade launcher
+Stop freeze when placing destructibles
+Placing time and limited barricades for CE?
 Do saluting
 make an objective anywhere
 Add more content references?
-Stop freeze when placing destructible
 Fix highway 14 29th edit
 fix performance issues on maps
 Spawn GAM vehicles
@@ -12,6 +14,7 @@ Don't switch desired ammo in tanks
 Remove map boundaries maybe?
 Remove team switch timer
 eventually a system for destroying individual pieces of prefab
+Change OBJ cap times
 
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing

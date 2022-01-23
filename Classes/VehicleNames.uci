@@ -17,6 +17,8 @@
     Skis = class'WinterWar.WWVehicle_Skis_ActualContent';
     //M113 = class'AmmoCrate.ACVehicle_M113_APC_Content';
 
+    NameValid = "True";
+
     switch (VehicleName)
     {
         // Vanilla

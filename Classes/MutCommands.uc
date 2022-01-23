@@ -356,13 +356,6 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     foreach worldinfo.allpawns(class'ROPawn', ROP)
         {
             InvManager = ROInventoryManager(ROP.InvManager);
-            if (bisPC())
-            {
-                switch (WeaponName)
-                {
-                `include(MutCommands\Classes\WeaponNamesVanilla.uci)
-                }
-            }
             switch (WeaponName)
             {
             `include(MutCommands\Classes\WeaponNames.uci)     
@@ -373,13 +366,6 @@ function GiveWeapon(PlayerController PC, string WeaponName, out string NameValid
     else if (TeamIndex == 100)
     {
     InvManager = ROInventoryManager(PC.Pawn.InvManager);
-        if (bisPC())
-        {
-            switch (WeaponName)
-            {
-            `include(MutCommands\Classes\WeaponNamesVanilla.uci)
-            }
-        }
         switch (WeaponName)
         {
         `include(MutCommands\Classes\WeaponNames.uci)     
@@ -403,13 +389,6 @@ function giveweapon2(PlayerController PC, string WeaponName, out string NameVali
             InvManager = ROInventoryManager(ROP.InvManager);
             if (ROP.GetTeamNum() == `AXIS_TEAM_INDEX)
             {
-                if (bisPC())
-                {
-                    switch (WeaponName)
-                    {
-                    `include(MutCommands\Classes\WeaponNamesVanilla.uci)
-                    }
-                }
                 switch (WeaponName)
                 {
                 `include(MutCommands\Classes\WeaponNames.uci)     
@@ -425,13 +404,6 @@ function giveweapon2(PlayerController PC, string WeaponName, out string NameVali
             InvManager = ROInventoryManager(ROP.InvManager);
             if (ROP.GetTeamNum() == `ALLIES_TEAM_INDEX)
             {
-                if (bisPC())
-                {
-                    switch (WeaponName)
-                    {
-                    `include(MutCommands\Classes\WeaponNamesVanilla.uci)
-                    }
-                }
                 switch (WeaponName)
                 {
                 `include(MutCommands\Classes\WeaponNames.uci)     
@@ -536,8 +508,6 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
 	local ROVehicle                 ROHelo;
     local ROPawn                    ROP;
     //local class<ROVWeap_TankTurret> TurretGunClass;
-
-    NameValid = "True";
 
     ROP = ROPawn(PC.Pawn);
     // Do ray check and grab actor
