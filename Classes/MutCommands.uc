@@ -60,15 +60,6 @@ auto state StartUp
     SetTimer( 1, true, 'timer2');
 }
 
-function bool bisPC()
-{
-    if (ROGameInfo(WorldInfo.Game).PlayerControllerClass == class'MCPlayerController')
-    {
-        return true;
-    }
-    else {return false;}
-}
-
 function SetVicTeam()
 {
     local ROVehicle ROV;
@@ -124,19 +115,41 @@ function LoadObjectsInit()
     ROMI.SharedContentReferences.Remove(0, ROMI.SharedContentReferences.Length);
 	class'WorldInfo'.static.GetWorldInfo().ForceGarbageCollection(TRUE);
 
+    // Vanilla
 	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("ROGameContent.ROWeap_M2_HMG_Tripod_Content", class'Class')));
 	ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("ROGameContent.ROWeap_DShK_HMG_Tripod_Content", class'Class')));
 	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_AH1G_Content", class'Class')));
 	ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_OH6_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("ROGameContent.ROHeli_UH1H_Gunship_Content", class'Class')));
+
+    // WinterWar
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T20_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T26_EarlyWar_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_T28_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
-    //ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
+
+    // GOM
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
+
+    // 29th Extras
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_Claymore_Quad_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Green_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Purple_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Red_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Yellow_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level2", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level3", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M79_MemeLauncher_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_MG34_LMG_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_Molotov_Triad_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_RPG7_RocketLauncher_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_RPPG_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_Tripwire_Quad_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_VietSatchel_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_XM21Scoped_Rifle_Suppressed", class'Class')));
 }
 
 function PrivateMessage(PlayerController receiver, coerce string msg)
@@ -146,201 +159,198 @@ function PrivateMessage(PlayerController receiver, coerce string msg)
 
 singular function Mutate(string MutateString, PlayerController PC) //no prefixes, also call super function!
 {
-        local array<string> Args;
-        local string        command;
-        local string        NVW, NVV;
-        local string        PlayerName;
+    local array<string> Args;
+    local string        command;
+    local string        NVW, NVV;
+    local string        PlayerName;
 
-	    ROGI = ROGameInfo(WorldInfo.Game);
+	ROGI = ROGameInfo(WorldInfo.Game);
 
-        Args = SplitString(MutateString, " ", true);
-        command = Caps(Args[0]);
-        PlayerName = PC.PlayerReplicationInfo.PlayerName;
-        
-            Switch (Command)
+    Args = SplitString(MutateString, " ", true);
+    command = Caps(Args[0]);
+    PlayerName = PC.PlayerReplicationInfo.PlayerName;
+    
+    Switch (Command)
+    {
+        case "GIVEWEAPON":
+            GiveWeapon(PC, Args[1], NVW, false, 100);
+            if (NVW == "True" )
             {
-                case "GIVEWEAPON":
-                GiveWeapon(PC, Args[1], NVW, false, 100);
-                if (NVW == "True" )
-                {
-                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
-                    `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
-                }
-                else if (NVW == "False")
-                {
-                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
-                    PrivateMessage(PC, "Not a valid weapon name.");
-                }
-                break;
-
-                case "GIVEWEAPONALL":
-                GiveWeapon(PC, Args[1], NVW, true);
-                if (NVW == "True")
-                {
-                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to everyone");
-                    `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
-                }
-                else if (NVW == "False")
-                {
-                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
-                    PrivateMessage(PC, "Not a valid weapon name.");
-                }
-                break;
-
-                case "GIVEWEAPONNORTH":
-                GiveWeapon(PC, Args[1], NVW, false, `AXIS_TEAM_INDEX);
-                if (NVW == "True")
-                {
-                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
-                    `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
-                }
-                else if (NVW == "False")
-                {
-                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
-                    PrivateMessage(PC, "Not a valid weapon name.");
-                }
-                break;
-
-                case "GIVEWEAPONSOUTH":
-                GiveWeapon(PC, Args[1], NVW, false, `ALLIES_TEAM_INDEX);
-                if (NVW == "True")
-                {
-                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
-                    `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
-                }
-                else if (NVW == "False")
-                {
-                    `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
-                    PrivateMessage(PC, "Not a valid weapon name.");
-                }
-                break;
-
-                case "CLEARWEAPONS":
-                ClearWeapons(PC, false, 100);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared their weapons");
-                `log("Clearing Weapons");
-                break;
-
-                case "CLEARWEAPONSALL":
-                ClearWeapons(PC, true);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared all weapons");
-                `log("Clearing Weapons");
-                break;
-
-                case "CLEARWEAPONSNORTH":
-                ClearWeapons(PC, false, `AXIS_TEAM_INDEX);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared north weapons");
-                `log("Clearing Weapons");
-                break;
-
-                case "CLEARWEAPONSSOUTH":
-                ClearWeapons(PC, false, `ALLIES_TEAM_INDEX);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared south weapons");
-                `log("Clearing Weapons");
-                break;
-                
-                case "SPAWNVEHICLE":
-                SpawnVehicle(PC, Args[1], NVV);
-                if (NVV == "True")
-                {
-                    WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
-                    `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
-                }
-                else
-                {
-                    `log("[MutCommands] Spawnvehicle failed! "$PlayerName$" tried to spawn a "$Args[1]);
-                    PrivateMessage(PC, "Not a valid vehicle name.");
-                }
-                break;
-
-                case "CLEARVEHICLES":
-                ClearVehicles();
-                `log("Clearing Vehicles");
-                break;
-
-                case "SetJumpZ":
-                SetJumpZ(PC, float(Args[1]));
-                `log("SetJumpZ");
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their JumpZ to "$Args[1]);
-                break;
-
-                case "SetGravity":
-                SetGravity(PC, float(Args[1]));
-                `log("SetGravity");
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set gravity to "$Args[1]);
-                break;
-
-                case "SetSpeed":
-                SetSpeed(PC, float(Args[1]));
-                `log("SetSpeed");
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their speed to "$Args[1]);
-                break;
-
-                case "ChangeSize":
-                ChangeSize(PC, float(Args[1]));
-                `log("ChangeSize");
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their size to "$Args[1]);
-                break;
-
-                case "ADDBOTS":
-                AddBots(int(Args[1]), int(Args[2]), bool(Args[3]));
-                `log("Added Bots");
-                break;
-
-                case "REMOVEBOTS":
-                RemoveBots();
-                `log("Removed Bots");
-                break;
-
-                case "ALLAMMO":
-                AllAmmo(PC);
-                `log("Infinite Ammo");
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" toggled AllAmmo");
-                break;
-
-                case "THIRDPERSON":
-                MCamera(PC);
-                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" went thirdperson");
-                break;
-
-                case"FIRSTPERSON":
-                MCamera(PC, true);
-                break;
-
-                case "CAPTURETHEFLAG":
-                CTFToggle();
-                break;
-
-                case "CALLNAPALM":
-                SpawnFireSupport(PC, 0);
-                break;
-
-                case "CALLCANBERRA":
-                SpawnFireSupport(PC, 1);
-                break;
-
-                case "CALLAC47":
-                SpawnFireSupport(PC, 2);
-                break;
-
-                case "CALLAA":
-                SpawnFireSupport(PC, 3);
-                break;
-
-                case "CALLARTY":
-                SpawnFireSupport(PC, 4);
-                break;
-                
-                /* case "LOADGOM":
-                LoadGOMObjects();
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded GOM");
-                break;
-
-                case "LOADWW":
-                LoadWinterWarObjects();
-                WorldInfo.Game.Broadcast(self, "[MutCommands] Loaded Winter War");
-                break; */
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
+                `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
             }
+            else if (NVW == "False")
+            {
+                `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                PrivateMessage(PC, "Not a valid weapon name.");
+            }
+            break;
+
+        case "GIVEWEAPONALL":
+            GiveWeapon(PC, Args[1], NVW, true);
+            if (NVW == "True")
+            {
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to everyone");
+                `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
+            }
+            else if (NVW == "False")
+            {
+                `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                PrivateMessage(PC, "Not a valid weapon name.");
+            }
+            break;
+
+        case "GIVEWEAPONNORTH":
+            GiveWeapon(PC, Args[1], NVW, false, `AXIS_TEAM_INDEX);
+            if (NVW == "True")
+            {
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
+                `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the north");
+            }
+            else if (NVW == "False")
+            {
+                `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                PrivateMessage(PC, "Not a valid weapon name.");
+            }
+            break;
+
+        case "GIVEWEAPONSOUTH":
+            GiveWeapon(PC, Args[1], NVW, false, `ALLIES_TEAM_INDEX);
+            if (NVW == "True")
+            {
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
+                `log("[MutCommands] "$PlayerName$" gave a "$Args[1]$" to the south");
+            }
+            else if (NVW == "False")
+            {
+                `log("[MutCommands] Giveweapon failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                PrivateMessage(PC, "Not a valid weapon name.");
+            }
+            break;
+
+        case "CLEARWEAPONS":
+            ClearWeapons(PC, false, 100);
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared their weapons");
+            `log("Clearing Weapons");
+            break;
+
+        case "CLEARWEAPONSALL":
+            ClearWeapons(PC, true);
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared all weapons");
+            `log("Clearing Weapons");
+            break;
+
+        case "CLEARWEAPONSNORTH":
+            ClearWeapons(PC, false, `AXIS_TEAM_INDEX);
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared north weapons");
+            `log("Clearing Weapons");
+            break;
+
+        case "CLEARWEAPONSSOUTH":
+            ClearWeapons(PC, false, `ALLIES_TEAM_INDEX);
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" cleared south weapons");
+            `log("Clearing Weapons");
+            break;
+        
+        case "SPAWNVEHICLE":
+            SpawnVehicle(PC, Args[1], NVV);
+            if (NVV == "True")
+            {
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" spawned a "$Args[1]);
+                `log("[MutCommands] "$PlayerName$" spawned a "$Args[1]$"");
+            }
+            else
+            {
+                `log("[MutCommands] Spawnvehicle failed! "$PlayerName$" tried to spawn a "$Args[1]);
+                PrivateMessage(PC, "Not a valid vehicle name.");
+            }
+            break;
+
+        case "CLEARVEHICLES":
+            ClearVehicles();
+            `log("Clearing Vehicles");
+            break;
+
+        case "SetJumpZ":
+            SetJumpZ(PC, float(Args[1]));
+            `log("SetJumpZ");
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their JumpZ to "$Args[1]);
+            break;
+
+        case "SetGravity":
+            SetGravity(PC, float(Args[1]));
+            `log("SetGravity");
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set gravity to "$Args[1]);
+            break;
+
+        case "SetSpeed":
+            SetSpeed(PC, float(Args[1]), Args[2]);
+            `log("SetSpeed");
+            if (Args[2] ~= "all")
+            {
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set everyone's speed to "$Args[1]);
+            }
+            else
+            {
+                WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their speed to "$Args[1]);
+            }
+            break;
+
+        case "ChangeSize":
+            ChangeSize(PC, float(Args[1]));
+            `log("ChangeSize");
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" set their size to "$Args[1]);
+            break;
+
+        case "ADDBOTS":
+            AddBots(int(Args[1]), int(Args[2]), bool(Args[3]));
+            `log("Added Bots");
+            break;
+
+        case "REMOVEBOTS":
+            RemoveBots();
+            `log("Removed Bots");
+            break;
+
+        case "ALLAMMO":
+            AllAmmo(PC);
+            `log("Infinite Ammo");
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" toggled AllAmmo");
+            break;
+
+        case "THIRDPERSON":
+            MCamera(PC);
+            WorldInfo.Game.Broadcast(self, "[MutCommands] "$PlayerName$" went thirdperson");
+            break;
+
+        case"FIRSTPERSON":
+            MCamera(PC, true);
+            break;
+
+        case "CAPTURETHEFLAG":
+            CTFToggle();
+            break;
+
+        case "CALLNAPALM":
+            SpawnFireSupport(PC, 0);
+            break;
+
+        case "CALLCANBERRA":
+            SpawnFireSupport(PC, 1);
+            break;
+
+        case "CALLAC47":
+            SpawnFireSupport(PC, 2);
+            break;
+
+        case "CALLAA":
+            SpawnFireSupport(PC, 3);
+            break;
+
+        case "CALLARTY":
+            SpawnFireSupport(PC, 4);
+            break;
+    }
     super.Mutate(MutateString, PC);
 }
 
@@ -492,7 +502,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
     local class<ROVehicle>          Loach;
     local class<ROVehicle>          Huey;
     local class<ROVehicle>          Bushranger;
-    //local class<ROVehicle>          M113ACAV;
+    local class<ROVehicle>          M113ACAV;
     local class<ROVehicle>          T20;
     local class<ROVehicle>          T26;
     local class<ROVehicle>          T28;
@@ -561,9 +571,30 @@ function SetGravity(PlayerController PC, float F )
         }
 }
 
-function SetSpeed(PlayerController PC, float F )
+function SetSpeed(PlayerController PC, float F, string S)
 {
-    if (0.1 <= F && F <= 5)
+    if (S ~= "all")
+    {
+        ForEach WorldInfo.AllControllers(class'PlayerController', PC)
+        {
+            if (0.5 <= F && F <= 20)
+            {
+                PC.Pawn.GroundSpeed =   PC.Pawn.Default.GroundSpeed * F;
+	            PC.Pawn.WaterSpeed =    PC.Pawn.Default.WaterSpeed * F;
+                PC.Pawn.AirSpeed =      PC.Pawn.Default.AirSpeed * F;
+                PC.Pawn.LadderSpeed =   PC.Pawn.Default.LadderSpeed * F;
+            }
+            else
+            {
+                PC.Pawn.GroundSpeed =   PC.Pawn.Default.GroundSpeed;
+	            PC.Pawn.WaterSpeed =    PC.Pawn.Default.WaterSpeed;
+                PC.Pawn.AirSpeed =      PC.Pawn.Default.AirSpeed;
+                PC.Pawn.LadderSpeed =   PC.Pawn.Default.LadderSpeed;
+                // `log("Error");
+            }
+        }
+    }
+    if (0.1 <= F && F <= 20)
 	{
         PC.Pawn.GroundSpeed = PC.Pawn.Default.GroundSpeed * F;
 	    PC.Pawn.WaterSpeed = PC.Pawn.Default.WaterSpeed * F;

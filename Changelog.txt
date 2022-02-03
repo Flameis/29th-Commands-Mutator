@@ -1,12 +1,13 @@
-Name Changer doesn't have time to get default. - fixed?
-MutRealismMatch seperate namechanger into another file
+SOUND BUG!!!
+Fly command
+Make an ammo cache barricade
 Make cheat managers.
 Make automatic MAS grenade launcher
 Stop freeze when placing destructibles
 Placing time and limited barricades for CE?
 Do saluting
 make an objective anywhere
-Add more content references?
+Add more content references?!
 Fix highway 14 29th edit
 fix performance issues on maps
 Spawn GAM vehicles
@@ -15,6 +16,16 @@ Remove map boundaries maybe?
 Remove team switch timer
 eventually a system for destroying individual pieces of prefab
 Change OBJ cap times
+turn split strings into InStr?
+Make a kill tracker?
+Optimize MutRealismMatch code
+Tank crew role finnish
+spawn m2 browning
+
+
+Changed all relevant AllActors in MutRealismMatch to WorldInfo.AllControllers - done
+Add 29th Extras References - fixed
+
 
 
 Changelog here https://docs.google.com/document/d/1hYLooJk6eucWWFWE52cxM2AGjHAa23r6X7tvBTxeS9s/edit?usp=sharing
@@ -30,6 +41,20 @@ HOWITZER
 FRENCHBUNKER
 BUSH
 PREFAB
+
+2/6/22
+
+
+1/29/22
+Various bug fixes
+/unready will now work
+Name Changer doesn't have time to get default. - fixed
+Make a command for clearing all Cached names and broken names - done
+Ammo boxes not spawning - fixed
+
+1/22/22
+Name Changer release
+Fixed bug where vanilla weapons and vics would not spawn
 
 1/15/22
 Fixed Barricades disappearing

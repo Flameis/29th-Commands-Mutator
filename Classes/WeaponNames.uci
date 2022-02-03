@@ -319,9 +319,9 @@
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_SignalSmoke_Green_Content", false, true);
             break;
 
-            case "MKB42":
+            /* case "MKB42":
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_MKb42_AssaultRifle_Content", false, true);
-            break;
+            break; */
 
             case "CIWS":
             InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_CIWS_Content", false, true);
@@ -336,15 +336,15 @@
             break;
 
             case "TRIPWIREQUAD":         
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_TripwireQuadContent", false, true);
+            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_Tripwire_Quad_Content", false, true);
             break;
 
             case "MOLOTOVTRIAD":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_MolotovTriadContent", false, true);
+            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_Molotov_Triad_Content", false, true);
             break;
 
             case "CLAYMOREQUAD":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18ClaymoreQuadContent", false, true);
+            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_Claymore_Quad_Content", false, true);
             break;
 
             case "FOUGQUAD":
