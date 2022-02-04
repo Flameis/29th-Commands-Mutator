@@ -10,9 +10,21 @@ var int                 CountDisabled, CountEnabled;
 
 function PreBeginPlay()
 {
+    local RORoleCount NorthRoleCount, SouthRoleCount;
     `log("MutCommands init");
+    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
-    if (ROGameInfo(WorldInfo.Game).PlayerControllerClass == class'ROPlayerController')
+    if (IsWWThere())
+    {
+        NorthRoleCount.RoleInfoClass = class'WinterWar.WWRoleInfoAxisTankCrew';
+		NorthRoleCount.Count = 255;
+        ROMI.NorthernRoles.additem(NorthRoleCount);
+
+        SouthRoleCount.RoleInfoClass = class'WinterWar.WWRoleInfoAlliesTankCrew';
+		SouthRoleCount.Count = 255;
+        ROMI.SouthernRoles.additem(SouthRoleCount);
+    }
+    else if (ROGameInfo(WorldInfo.Game).PlayerControllerClass == class'ROPlayerController')
     {
         ROGameInfo(WorldInfo.Game).PlayerControllerClass = class'MCPlayerController';
     }
@@ -106,6 +118,32 @@ function RemoveVolumes()
         }
         //`log ("Set "$CountDisabled$" ROVNA disabled");
     }
+}
+
+function bool IsWWThere()
+{
+    if ( WWGameInfoTerritories(WorldInfo.Game) != none || WWGameInfoSupremacy(WorldInfo.Game) != none )
+    {
+        return true;
+    }
+    return false;
+}
+
+function bool IsGOMThere()
+{
+	local Mutator mut;
+    ROGI = ROGameInfo(WorldInfo.Game);
+    mut = ROGI.BaseMutator;
+
+    for (mut = ROGI.BaseMutator; mut != none; mut = mut.NextMutator)
+    {
+    `log("IsMutThere test "$string(mut.name));
+        if(InStr(string(mut.name), "GOM", ,true) != -1) 
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 function LoadObjectsInit()

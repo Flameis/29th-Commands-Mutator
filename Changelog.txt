@@ -19,12 +19,12 @@ Change OBJ cap times
 turn split strings into InStr?
 Make a kill tracker?
 Optimize MutRealismMatch code
-Tank crew role finnish
 spawn m2 browning
 
 
 Changed all relevant AllActors in MutRealismMatch to WorldInfo.AllControllers - done
 Add 29th Extras References - fixed
+Infinite WW tank crew
 
 
 
