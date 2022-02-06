@@ -16,11 +16,21 @@ function PreBeginPlay()
 
     if (IsWWThere())
     {
-        NorthRoleCount.RoleInfoClass = class'WinterWar.WWRoleInfoAxisTankCrew';
+            NorthRoleCount.RoleInfoClass = class'WinterWar.WWRoleInfoAxisTankCrew';
+		    NorthRoleCount.Count = 255;
+            ROMI.NorthernRoles.additem(NorthRoleCount);
+
+            SouthRoleCount.RoleInfoClass = class'WinterWar.WWRoleInfoAlliesTankCrew';
+		    SouthRoleCount.Count = 255;
+            ROMI.SouthernRoles.additem(SouthRoleCount);
+    }
+    else if (IsGOMThere())
+    {
+        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
 		NorthRoleCount.Count = 255;
         ROMI.NorthernRoles.additem(NorthRoleCount);
 
-        SouthRoleCount.RoleInfoClass = class'WinterWar.WWRoleInfoAlliesTankCrew';
+        SouthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
 		SouthRoleCount.Count = 255;
         ROMI.SouthernRoles.additem(SouthRoleCount);
     }
@@ -122,7 +132,9 @@ function RemoveVolumes()
 
 function bool IsWWThere()
 {
-    if ( WWGameInfoTerritories(WorldInfo.Game) != none || WWGameInfoSupremacy(WorldInfo.Game) != none )
+    local string WWName;
+    WWName = class'Engine'.static.GetCurrentWorldInfo().GetMapName(true);
+    if (InStr(WWName, "WW") != -1)
     {
         return true;
     }
@@ -168,26 +180,27 @@ function LoadObjectsInit()
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_HT130_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_53K_ActualContent", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("WinterWar.WWVehicle_Vickers_ActualContent", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<ParticleSystem>(DynamicLoadObject("WinterWar_FX.ParticleSystems.FX_VEH_Tank_C_Explosion", class'ParticleSystem')));
 
     // GOM
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("GOM3.GOMVehicle_M113_ACAV_ActualContent", class'Class')));
 
     // 29th Extras
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_Claymore_Quad_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Green_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Purple_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Red_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Yellow_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level2", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level3", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_M79_MemeLauncher_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_MG34_LMG_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_Molotov_Triad_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_RPG7_RocketLauncher_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_RPPG_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_Tripwire_Quad_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_VietSatchel_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("AmmoCrate.ACWeap_XM21Scoped_Rifle_Suppressed", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M18_Claymore_Quad_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Green_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Purple_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Red_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M18_SignalSmoke_Yellow_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level2", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level3", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_M79_MemeLauncher_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_MG34_LMG_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_Molotov_Triad_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_RPG7_RocketLauncher_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_RPPG_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_Tripwire_Quad_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_VietSatchel_Content", class'Class')));
+    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("AmmoCrate.ACWeap_XM21Scoped_Rifle_Suppressed", class'Class')));  
 }
 
 function PrivateMessage(PlayerController receiver, coerce string msg)
@@ -667,9 +680,6 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 	local ROAIController ROBot;
 	local byte ChosenTeam;
 	local byte SuggestedTeam;
-	// GRIP BEGIN
-	local ROPlayerReplicationInfo ROPRI;
-	// GRIP END
 	// do not add bots during server travel
     ROGI = ROGameInfo(WorldInfo.Game);
 
@@ -732,15 +742,6 @@ function AddBots(int Num, optional int NewTeam = -1, optional bool bNoForceAdd)
 		}
 
 		ROBot.ChooseSquad();
-
-		// GRIP BEGIN
-		// Remove. Debugging purpose only.
-		ROPRI = ROPlayerReplicationInfo(ROBot.PlayerReplicationInfo);
-		if( ROPRI.RoleInfo.bIsTankCommander )
-		{
-			ROGI.ChangeName(ROBot, ROPRI.GetHumanReadableName()$" (TankAI)", false);
-		}
-		// GRIP END
 
 		if ( ROTeamInfo(ROBot.PlayerReplicationInfo.Team) != none && ROTeamInfo(ROBot.PlayerReplicationInfo.Team).ReinforcementsRemaining > 0 )
 		{

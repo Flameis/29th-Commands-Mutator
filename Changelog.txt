@@ -16,15 +16,13 @@ Remove map boundaries maybe?
 Remove team switch timer
 eventually a system for destroying individual pieces of prefab
 Change OBJ cap times
-turn split strings into InStr?
 Make a kill tracker?
-Optimize MutRealismMatch code
-spawn m2 browning
 
 
 Changed all relevant AllActors in MutRealismMatch to WorldInfo.AllControllers - done
 Add 29th Extras References - fixed
-Infinite WW tank crew
+Infinite WW tank crew - needs work
+spawn m2 browning - needs work
 
 
 
