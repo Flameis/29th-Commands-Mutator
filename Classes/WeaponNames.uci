@@ -26,6 +26,14 @@
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_IZH43_Shotgun_Content", false, true);
             break;
 
+            case "COACH":
+            InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_IZH43_Shotgun_Level2", false, true);
+            break;
+
+            case "SAWNOFF":
+            InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_IZH43_Shotgun_Level3", false, true);
+            break;
+
             case "K50M":
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_K50M_SMG_Content", false, true);
             break;
@@ -273,90 +281,66 @@
             case "GREASEGUN":
             InvManager.LoadAndCreateInventory("ROGameContent.ROWeap_M3A1_SMG_Content", false, true);
             break;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 29th Extras
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// MutExtras
 
             case "USAMMO":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACItem_USAmmoCrate_Content", false, true);            
+            InvManager.LoadAndCreateInventory("MutExtras.ACItem_USAmmoCrate_Content", false, true);            
             break;
 
             case "VCAMMO":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACItem_VCAmmoCrate_Content", false, true);
-            break;
-
-            case "MG34":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_MG34_LMG_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACItem_VCAmmoCrate_Content", false, true);
             break;
 
             case "M79WP":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M79_GrenadeLauncher_Level3", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_M79_GrenadeLauncher_Level3", false, true);
             break;
 
             case "MEME":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M79_MemeLauncher_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_M79_MemeLauncher_Content", false, true);
             break;
             
             case "SATCHEL":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_VietSatchel_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_VietSatchel_Content", false, true);
             break;
 
             case "XM21SILENCED":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_XM21Scoped_Rifle_Suppressed", false, true);
-            break;
-
-            case "M18YELLOW":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_SignalSmoke_Yellow_Content", false, true);
-            break;
-
-            case "M18RED":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_SignalSmoke_Red_Content", false, true);
-            break;
-
-            case "M18PURPLE":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_SignalSmoke_Purple_Content", false, true);
-            break;
-
-            case "M18GREEN":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_SignalSmoke_Green_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_XM21Scoped_Rifle_Suppressed", false, true);
             break;
 
             /* case "MKB42":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_MKb42_AssaultRifle_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_MKb42_AssaultRifle_Content", false, true);
+            break;
+            
+            case "MG34":
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_MG34_LMG_Content", false, true);
             break; */
 
             case "CIWS":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_CIWS_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_CIWS_Content", false, true);
             break;
 
             case "RPPG":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_RPPG_Content", false, true);
-            break;
-
-            case "SALUTE":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACSaluteHands", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_RPPG_Content", false, true);
             break;
 
             case "TRIPWIREQUAD":         
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_Tripwire_Quad_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_Tripwire_Quad_Content", false, true);
             break;
 
             case "MOLOTOVTRIAD":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_Molotov_Triad_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_Molotov_Triad_Content", false, true);
             break;
 
             case "CLAYMOREQUAD":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_M18_Claymore_Quad_Content", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_M18_Claymore_Quad_Content", false, true);
             break;
 
             case "FOUGQUAD":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_FougQuadContent", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_FougQuadContent", false, true);
             break;
 
             case "RPG7":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACWeap_RPG7_RocketLauncher_Content", false, true);
-            break;
-   
-            case "SANDBAGS":
-            InvManager.LoadAndCreateInventory("AmmoCrate.ACItemPlaceableContent", false, true);
+            InvManager.LoadAndCreateInventory("MutExtras.ACWeap_RPG7_RocketLauncher_Content", false, true);
             break;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Winter War
@@ -492,7 +476,7 @@
             break;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// GOM 4
 
-            /*case "38BODYGUARD":
+            case "38BODYGUARD":
             InvManager.LoadAndCreateInventory("GOM4.GOMWeapon_38Bodyguard_ActualContent", false, true);
 
             break;
@@ -720,7 +704,7 @@
             case "VCGRENADE":
             InvManager.LoadAndCreateInventory("GOM4.GOMWeapon_VCGrenade_ActualContent", false, true);
 
-            break;*/
+            break;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// GOM 3
 
             /*case "RPG2":

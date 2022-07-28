@@ -1,8 +1,8 @@
 //=============================================================================
-// MCRoleInfoTankCrewSouth
-// Edited for the 29th Scovel
+// MCRoleInfoTankCrewFinnish
+// Edited for the 29ID by Scovel
 //=============================================================================
-class MCRoleInfoTankCrewSouth extends RORoleInfoSouthernInfantry
+class MCRoleInfoTankCrewFinnish extends RORoleInfoNorthernInfantry
 	HideDropDown;
 
 defaultproperties
@@ -15,8 +15,8 @@ defaultproperties
 
 	Items[RORIGM_Default]={(
 					// Primary : DEFAULTS
-					PrimaryWeapons=(class'ROGame.ROWeap_XM177E1_Carbine'),
-					SecondaryWeapons=(class'ROGame.ROWeap_M1911_Pistol',class'ROGame.ROWeap_M1917_Pistol',class'ROGame.ROWeap_BHP_Pistol'),				
+					PrimaryWeapons=(class'WinterWar.WWWeapon_L35',class'WinterWar.WWWeapon_Luger'),
+					SecondaryWeapons=()
 		)}
 
 	ClassIcon=Texture2D'VN_UI_Textures.OverheadMap.ui_overheadmap_icons_friendly_tank'
