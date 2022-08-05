@@ -110,10 +110,6 @@ function LoadObjectsInit()
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("MutExtras.ACHeli_UH1H_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<ROVehicle>(DynamicLoadObject("MutExtras.ACHeli_UH1H_Gunship_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M18_Claymore_Quad_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M18_SignalSmoke_Green_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M18_SignalSmoke_Purple_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M18_SignalSmoke_Red_Content", class'Class')));
-    ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M18_SignalSmoke_Yellow_Content", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M79_GrenadeLauncher_Level2", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M79_GrenadeLauncher_Level3", class'Class')));
     ROMI.SharedContentReferences.AddItem(class<Inventory>(DynamicLoadObject("MutExtras.ACWeap_M79_MemeLauncher_Content", class'Class')));

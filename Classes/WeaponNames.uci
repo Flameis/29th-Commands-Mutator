@@ -343,6 +343,10 @@
             InvManager.LoadAndCreateInventory("MutExtras.ACWeap_RPG7_RocketLauncher_Content", false, true);
             break;
 
+            case "HOLSTER":
+            InvManager.LoadAndCreateInventory("MutExtras.ACHolster", false, true);
+            break;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Winter War
 
             case "WWATMINE":
