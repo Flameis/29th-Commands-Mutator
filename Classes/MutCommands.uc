@@ -14,9 +14,14 @@ function PreBeginPlay()
 
     LoadObjectsInit();
     RemoveVolumes();
-    RoleSetup();
-
+    
     super.PreBeginPlay();
+}
+
+function PostBeginPlay()
+{
+    RoleSetup();
+    super.PostBeginPlay();
 }
 
 /* function NotifyLogin(Controller NewPlayer)
