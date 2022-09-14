@@ -1,112 +1,71 @@
 class MCPlayerController extends ROPlayerController;
 
-var ROMapInfo                   ROMI;
-
 simulated function PreBeginPlay()
 {
     super.PreBeginPlay();
 
-    ReplaceRoles();
-}
-
-simulated function PostBeginPlay()
-{
-    local RORoleCount RORC;
-
-    `log("ACPlayerController.PostBeginPlay()");
-
-    super.PostBeginPlay();
-
-    ROMI = ROMapInfo(WorldInfo.GetMapInfo());
-
-    ForEach ROMI.NorthernRoles(RORC)
+    if (WorldInfo.NetMode == NM_Standalone || Role == ROLE_Authority)
     {
-        `log("RoleInfoClass = " $ RORC.RoleInfoClass);
-    }
-
-    ForEach ROMI.SouthernRoles(RORC)
-    {
-        `log("RoleInfoClass = " $ RORC.RoleInfoClass);
-    }
+    	ReplaceRoles();
+	}
 }
 
 simulated function ReplaceRoles()
 {
-    local RORoleCount           NorthRoleCount, SouthRoleCount1, SouthRoleCount2, SouthRoleCount3;
-    local class<RORoleInfo>     SouthTL;
-    local bool                  FoundPilot;
-    local int                   i;
+    local ROMapInfo ROMI;
+    local RORoleCount SRC, NRC;
+	local int 					I;
+
     ROMI = ROMapInfo(WorldInfo.GetMapInfo());
 
-    if (ROMI != None)
+	if (ROMI != None)
     {
-        `log ("Replacing Roles");
+        SRC.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
+        NRC.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
+        SRC.Count = 255;
+        NRC.Count = 255;
 
-        switch (ROMI.SouthernForce)
+        ROMI.SouthernRoles.AddItem(SRC);
+		ROMI.NorthernRoles.AddItem(NRC);
+
+        //Infinite roles
+        for (i = 0; i < ROMI.SouthernRoles.length; i++)
+        {
+            ROMI.SouthernRoles[i].Count = 255;
+        }    
+        for (i = 0; i < ROMI.NorthernRoles.length; i++)
+        {
+            ROMI.NorthernRoles[i].Count = 255;
+        }
+
+        /* switch (ROMI.SouthernForce)
         {
             case SFOR_USArmy:
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouth';
+            break;
+
             case SFOR_USMC:
-                SouthTL = class'MCRoleInfoCommanderSouth';       
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouth';
             break;
 
             case SFOR_AusArmy:
-                SouthTL = class'MCRoleInfoCommanderSouthAUS';
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouthAUS';
             break;
 
             case SFOR_ARVN:
-                SouthTL = class'MCRoleInfoCommanderSouthARVN';
+                ROMI.SouthernTeamLeader.roleinfo = none;
+                ROMI.SouthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderSouthARVN';
             break;
         }
-
-        ROMI.SouthernTeamLeader.roleinfo = none;
-        ROMI.SouthernTeamLeader.roleinfo = new SouthTL;
-
         ROMI.NorthernTeamLeader.roleinfo = none;
-        ROMI.NorthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderNorth';;
-
-        SouthRoleCount3.RoleInfoClass = class'MCRoleInfoTankCrewSouth';
-		SouthRoleCount3.Count = 255;
-        ROMI.SouthernRoles.additem(SouthRoleCount3);
-
-        NorthRoleCount.RoleInfoClass = class'MCRoleInfoTankCrewNorth';
-		NorthRoleCount.Count = 255;
-        ROMI.NorthernRoles.additem(NorthRoleCount);
-
-        for (I=0; I < ROMI.SouthernRoles.length; I++)
-        {
-			if (instr(ROMI.SouthernRoles[I].RoleInfoClass.Name, "Pilot",, true) != -1)
-            {
-                FoundPilot = true;
-				break;
-            }
-        }
-
-        if (FoundPilot)
-        {
-            switch (ROMI.SouthernForce)
-            {
-                case SFOR_USArmy:
-                case SFOR_USMC:
-                    SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilot';
-                    SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilot';  
-                break;
-
-                case SFOR_AusArmy:
-                    SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilotAUS';
-                    SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilotAUS';
-                break;
-
-                case SFOR_ARVN:
-                    SouthRoleCount1.RoleInfoClass = class'RORoleInfoSouthernPilotARVN';
-                    SouthRoleCount2.RoleInfoClass = class'RORoleInfoSouthernTransportPilotARVN';
-                break;
-            }
-        }
-
-        SouthRoleCount1.Count = 255;
-        ROMI.SouthernRoles.additem(SouthRoleCount1);
-
-        SouthRoleCount2.Count = 255;
-        ROMI.SouthernRoles.additem(SouthRoleCount2);
+        ROMI.NorthernTeamLeader.roleinfo = new class'MCRoleInfoCommanderNorth'; */
     }
+}
+
+reliable client function ClientReplaceRoles()
+{
+    ReplaceRoles();
 }
