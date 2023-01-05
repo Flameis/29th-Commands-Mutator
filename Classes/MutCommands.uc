@@ -5,7 +5,7 @@ var ROMapInfo           ROMI;
 var ROGameInfo          ROGI;
 var MCPlayerController  MCPC;
 var ROPlayerController  ROPC;
-var bool                bCTFon;
+var bool                bCTFon, bNewTankPhys;
 var int                 CountDisabled;
 
 simulated function PreBeginPlay()
@@ -204,6 +204,13 @@ singular function Mutate(string MutateString, PlayerController PC) //no prefixes
     
     Switch (Command)
     {
+        case "SWITCHTANKPHYS":
+            if (!bNewTankPhys)
+                bNewTankPhys=true;
+            else
+                bNewTankPhys=false;
+            break;
+
         case "GIVEWEAPON":
             GiveWeapon(PC, Args[1], NVW, false, 100);
             if (NVW == "True" )
@@ -495,6 +502,7 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
     local class<ROVehicle>          Vehicle, Skis;
 	local ROVehicle                 ROHelo;
     local ROPawn                    ROP;
+    local bool                      bLandVic;
 
     Skis = class'WinterWar.WWVehicle_Skis_ActualContent';
     NameValid = "True";
@@ -557,39 +565,48 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
         //GOM 4
         case "M113ACAV":
         Vehicle = class'GOM3.GOMVehicle_M113_ACAV_ActualContent';
+        bLandVic = true;
         break;
 
         case "MUTT":
 		Vehicle = class'GOM4.GOMVehicle_M151_MUTT_US';
+        bLandVic = true;
         break;
 
         case "T34":
 		Vehicle = class'GOM4.GOMVehicle_T34_ActualContent';
+        bLandVic = true;
         break;
 
         case "M113ARVN":
 		Vehicle = class'GOM4.GOMVehicle_M113_APC_ARVN';
+        bLandVic = true;
         break;
         
         case "T54":
 		Vehicle = class'GOM4.GOMVehicle_T54';
+        bLandVic = true;
         break;
 
         //Winter War
         case "T20":
 		Vehicle = class'WinterWar.WWVehicle_T20_ActualContent';
+        bLandVic = true;
         break;
 
         case "T26":
 		Vehicle = class'WinterWar.WWVehicle_T26_EarlyWar_ActualContent';
+        bLandVic = true;
         break;
 
         case "T28":
 		Vehicle = class'WinterWar.WWVehicle_T28_ActualContent';
+        bLandVic = true;
         break;
 
         case "HT130":
 		Vehicle = class'WinterWar.WWVehicle_HT130_ActualContent';
+        bLandVic = true;
         break;
 
         case "ATGun":
@@ -598,12 +615,14 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
 
         case "Vickers":
 		Vehicle = class'WinterWar.WWVehicle_Vickers_ActualContent';
+        bLandVic = true;
         break;
 
         case "Skis":
 		ROHelo = Spawn(Skis, , , EndShot, camrot);
         ROHelo.bTeamLocked = false;
         ROHelo.TryToDrive(ROP);
+        bLandVic = true;
         break;
 
         default:
@@ -614,6 +633,12 @@ function SpawnVehicle(PlayerController PC, string VehicleName, out string NameVa
     ROHelo = Spawn(Vehicle, , , EndShot, camrot);
     ROHelo.Mesh.AddImpulse(vect(0,0,1), ROHelo.Location);
     ROHelo.bTeamLocked = false;
+
+    if (bLandVic && bNewTankPhys)
+    {
+        ROHelo.Mesh.SetRBCollidesWithChannel(RBCC_Default, false);
+        ROHelo.Mesh.SetRBCollidesWithChannel(RBCC_BlockingVolume, false);
+    }
 }
 
 function ClearVehicles()
